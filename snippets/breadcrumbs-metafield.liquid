@@ -28,9 +28,6 @@
   {%- endcomment -%}
 
   {% for link_level_1 in linklists[menu].links %}
-    {%- comment -%}
-      Skip non-collection links — product breadcrumbs are composed of collections only.
-    {%- endcomment -%}
     {%- if finished -%}
       {%- continue -%}
     {%- endif -%}
