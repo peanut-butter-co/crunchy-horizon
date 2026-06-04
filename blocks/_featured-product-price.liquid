@@ -25,7 +25,7 @@
 %}
 
 <product-price
-  class="text-right {{ block_settings.type_preset | default: 'h6' }} {%- if block_settings.type_preset_mobile != blank %} text-block--mobile-preset-{{ block_settings.type_preset_mobile }}{%- endif -%} spacing-style"
+  class="text-right {{ block_settings.type_preset | default: 'h6' }} {%- if block_settings.type_preset_mobile != blank %} text-block--mobile-preset-{{ block_settings.type_preset_mobile }}{%- endif %} spacing-style"
   data-block-id="{{ block.id }}"
   data-product-id="{{ product.id }}"
   style="
