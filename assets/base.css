@@ -713,14 +713,14 @@ body,
 .paragraph:not(.button),
 .paragraph > *,
 .text-block.paragraph :is(h1, h2, h3, h4, h5, h6) {
-  font-family: var(--font-paragraph--family);
-  font-style: var(--font-paragraph--style);
-  font-weight: var(--font-paragraph--weight);
-  font-size: var(--font-paragraph--size);
-  line-height: var(--font-paragraph--line-height);
-  text-transform: var(--font-paragraph--case);
+  font-family: var(--text-preset-family, var(--font-paragraph--family));
+  font-style: var(--text-preset-style, var(--font-paragraph--style));
+  font-weight: var(--text-preset-weight, var(--font-paragraph--weight));
+  font-size: var(--text-preset-size, var(--font-paragraph--size));
+  line-height: var(--text-preset-line-height, var(--font-paragraph--line-height));
+  text-transform: var(--text-preset-case, var(--font-paragraph--case));
   -webkit-font-smoothing: antialiased;
-  color: var(--color, var(--color-foreground));
+  color: var(--text-preset-color, var(--color, var(--color-foreground)));
 }
 
 /* Ensure inputs with type presets maintain minimum 16px on mobile to prevent iOS zoom */
@@ -743,14 +743,14 @@ h1,
 .h1.h1,
 .text-block.h1 > *,
 .text-block.h1 :is(h1, h2, h3, h4, h5, h6) {
-  font-family: var(--font-h1--family);
-  font-style: var(--font-h1--style);
-  font-weight: var(--font-h1--weight);
-  font-size: var(--font-h1--size);
-  line-height: var(--font-h1--line-height);
-  letter-spacing: var(--font-h1--letter-spacing);
-  text-transform: var(--font-h1--case);
-  color: var(--color, var(--font-h1-color));
+  font-family: var(--text-preset-family, var(--font-h1--family));
+  font-style: var(--text-preset-style, var(--font-h1--style));
+  font-weight: var(--text-preset-weight, var(--font-h1--weight));
+  font-size: var(--text-preset-size, var(--font-h1--size));
+  line-height: var(--text-preset-line-height, var(--font-h1--line-height));
+  letter-spacing: var(--text-preset-letter-spacing, var(--font-h1--letter-spacing));
+  text-transform: var(--text-preset-case, var(--font-h1--case));
+  color: var(--text-preset-color, var(--color, var(--font-h1-color)));
 }
 
 @media screen and (max-width: 1200px) {
@@ -765,14 +765,14 @@ h2,
 .h2.h2,
 .text-block.h2 > *,
 .text-block.h2 :is(h1, h2, h3, h4, h5, h6) {
-  font-family: var(--font-h2--family);
-  font-style: var(--font-h2--style);
-  font-weight: var(--font-h2--weight);
-  font-size: var(--font-h2--size);
-  line-height: var(--font-h2--line-height);
-  letter-spacing: var(--font-h2--letter-spacing);
-  text-transform: var(--font-h2--case);
-  color: var(--color, var(--font-h2-color));
+  font-family: var(--text-preset-family, var(--font-h2--family));
+  font-style: var(--text-preset-style, var(--font-h2--style));
+  font-weight: var(--text-preset-weight, var(--font-h2--weight));
+  font-size: var(--text-preset-size, var(--font-h2--size));
+  line-height: var(--text-preset-line-height, var(--font-h2--line-height));
+  letter-spacing: var(--text-preset-letter-spacing, var(--font-h2--letter-spacing));
+  text-transform: var(--text-preset-case, var(--font-h2--case));
+  color: var(--text-preset-color, var(--color, var(--font-h2-color)));
 }
 
 @media screen and (max-width: 1200px) {
@@ -788,14 +788,14 @@ h3,
 .h3.h3,
 .text-block.h3 > *,
 .text-block.h3 :is(h1, h2, h3, h4, h5, h6) {
-  font-family: var(--font-h3--family);
-  font-style: var(--font-h3--style);
-  font-weight: var(--font-h3--weight);
-  font-size: var(--font-h3--size);
-  line-height: var(--font-h3--line-height);
-  letter-spacing: var(--font-h3--letter-spacing);
-  text-transform: var(--font-h3--case);
-  color: var(--color, var(--font-h3-color));
+  font-family: var(--text-preset-family, var(--font-h3--family));
+  font-style: var(--text-preset-style, var(--font-h3--style));
+  font-weight: var(--text-preset-weight, var(--font-h3--weight));
+  font-size: var(--text-preset-size, var(--font-h3--size));
+  line-height: var(--text-preset-line-height, var(--font-h3--line-height));
+  letter-spacing: var(--text-preset-letter-spacing, var(--font-h3--letter-spacing));
+  text-transform: var(--text-preset-case, var(--font-h3--case));
+  color: var(--text-preset-color, var(--color, var(--font-h3-color)));
 }
 
 @media screen and (max-width: 1200px) {
@@ -810,14 +810,14 @@ h4,
 .h4.h4,
 .text-block.h4 > *,
 .text-block.h4 :is(h1, h2, h3, h4, h5, h6) {
-  font-family: var(--font-h4--family);
-  font-style: var(--font-h4--style);
-  font-weight: var(--font-h4--weight);
-  font-size: var(--font-h4--size);
-  line-height: var(--font-h4--line-height);
-  letter-spacing: var(--font-h4--letter-spacing);
-  text-transform: var(--font-h4--case);
-  color: var(--color, var(--font-h4-color));
+  font-family: var(--text-preset-family, var(--font-h4--family));
+  font-style: var(--text-preset-style, var(--font-h4--style));
+  font-weight: var(--text-preset-weight, var(--font-h4--weight));
+  font-size: var(--text-preset-size, var(--font-h4--size));
+  line-height: var(--text-preset-line-height, var(--font-h4--line-height));
+  letter-spacing: var(--text-preset-letter-spacing, var(--font-h4--letter-spacing));
+  text-transform: var(--text-preset-case, var(--font-h4--case));
+  color: var(--text-preset-color, var(--color, var(--font-h4-color)));
 }
 
 @media screen and (max-width: 1200px) {
@@ -832,14 +832,14 @@ h5,
 .h5.h5,
 .text-block.h5 > *,
 .text-block.h5 :is(h1, h2, h3, h4, h5, h6) {
-  font-family: var(--font-h5--family);
-  font-style: var(--font-h5--style);
-  font-weight: var(--font-h5--weight);
-  font-size: var(--font-h5--size);
-  line-height: var(--font-h5--line-height);
-  letter-spacing: var(--font-h5--letter-spacing);
-  text-transform: var(--font-h5--case);
-  color: var(--color, var(--font-h5-color));
+  font-family: var(--text-preset-family, var(--font-h5--family));
+  font-style: var(--text-preset-style, var(--font-h5--style));
+  font-weight: var(--text-preset-weight, var(--font-h5--weight));
+  font-size: var(--text-preset-size, var(--font-h5--size));
+  line-height: var(--text-preset-line-height, var(--font-h5--line-height));
+  letter-spacing: var(--text-preset-letter-spacing, var(--font-h5--letter-spacing));
+  text-transform: var(--text-preset-case, var(--font-h5--case));
+  color: var(--text-preset-color, var(--color, var(--font-h5-color)));
 }
 
 @media screen and (max-width: 1200px) {
@@ -854,14 +854,14 @@ h6,
 .h6.h6,
 .text-block.h6 > *,
 .text-block.h6 :is(h1, h2, h3, h4, h5, h6) {
-  font-family: var(--font-h6--family);
-  font-style: var(--font-h6--style);
-  font-weight: var(--font-h6--weight);
-  font-size: var(--font-h6--size);
-  line-height: var(--font-h6--line-height);
-  letter-spacing: var(--font-h6--letter-spacing);
-  text-transform: var(--font-h6--case);
-  color: var(--color, var(--font-h6-color));
+  font-family: var(--text-preset-family, var(--font-h6--family));
+  font-style: var(--text-preset-style, var(--font-h6--style));
+  font-weight: var(--text-preset-weight, var(--font-h6--weight));
+  font-size: var(--text-preset-size, var(--font-h6--size));
+  line-height: var(--text-preset-line-height, var(--font-h6--line-height));
+  letter-spacing: var(--text-preset-letter-spacing, var(--font-h6--letter-spacing));
+  text-transform: var(--text-preset-case, var(--font-h6--case));
+  color: var(--text-preset-color, var(--color, var(--font-h6-color)));
 }
 
 @media screen and (max-width: 1200px) {
@@ -4211,5 +4211,116 @@ product-recommendations:has([data-has-recommendations='false']) {
   to {
     opacity: var(--atc-opacity, 1);
     translate: 0px var(--atc-destination, 0px);
+  }
+}
+
+/*
+ * Mobile typography presets for text blocks (≤749px).
+ * Sets --text-preset-* variables that are consumed by the preset rules above
+ * via var(--text-preset-*, var(--font-{preset}--*)) fallback pattern.
+ * Only applies to .text-block elements — inputs use the 1200px breakpoint for iOS zoom prevention.
+ */
+@media screen and (max-width: 749px) {
+  .text-block.text-block--mobile-preset-rte {
+    --text-preset-family: var(--font-body--family);
+    --text-preset-style: var(--font-body--style);
+    --text-preset-weight: var(--font-body--weight);
+    --text-preset-size: var(--font-paragraph--size);
+    --text-preset-line-height: var(--font-paragraph--line-height);
+    --text-preset-letter-spacing: var(--font-paragraph--letter-spacing);
+    --text-preset-case: var(--font-paragraph--case);
+    --text-preset-color: var(--color, var(--color-foreground));
+  }
+
+  .text-block.text-block--mobile-preset-paragraph {
+    --text-preset-family: var(--font-paragraph--family);
+    --text-preset-style: var(--font-paragraph--style);
+    --text-preset-weight: var(--font-paragraph--weight);
+    --text-preset-size: var(--font-paragraph--size);
+    --text-preset-line-height: var(--font-paragraph--line-height);
+    --text-preset-letter-spacing: var(--font-paragraph--letter-spacing);
+    --text-preset-case: var(--font-paragraph--case);
+    --text-preset-color: var(--color, var(--color-foreground));
+  }
+
+  .text-block.text-block--mobile-preset-h1 {
+    --text-preset-family: var(--font-h1--family);
+    --text-preset-style: var(--font-h1--style);
+    --text-preset-weight: var(--font-h1--weight);
+    --text-preset-size: var(--font-h1--size);
+    --text-preset-line-height: var(--font-h1--line-height);
+    --text-preset-letter-spacing: var(--font-h1--letter-spacing);
+    --text-preset-case: var(--font-h1--case);
+    --text-preset-color: var(--color, var(--font-h1-color));
+  }
+
+  .text-block.text-block--mobile-preset-h2 {
+    --text-preset-family: var(--font-h2--family);
+    --text-preset-style: var(--font-h2--style);
+    --text-preset-weight: var(--font-h2--weight);
+    --text-preset-size: var(--font-h2--size);
+    --text-preset-line-height: var(--font-h2--line-height);
+    --text-preset-letter-spacing: var(--font-h2--letter-spacing);
+    --text-preset-case: var(--font-h2--case);
+    --text-preset-color: var(--color, var(--font-h2-color));
+  }
+
+  .text-block.text-block--mobile-preset-h3 {
+    --text-preset-family: var(--font-h3--family);
+    --text-preset-style: var(--font-h3--style);
+    --text-preset-weight: var(--font-h3--weight);
+    --text-preset-size: var(--font-h3--size);
+    --text-preset-line-height: var(--font-h3--line-height);
+    --text-preset-letter-spacing: var(--font-h3--letter-spacing);
+    --text-preset-case: var(--font-h3--case);
+    --text-preset-color: var(--color, var(--font-h3-color));
+  }
+
+  .text-block.text-block--mobile-preset-h4 {
+    --text-preset-family: var(--font-h4--family);
+    --text-preset-style: var(--font-h4--style);
+    --text-preset-weight: var(--font-h4--weight);
+    --text-preset-size: var(--font-h4--size);
+    --text-preset-line-height: var(--font-h4--line-height);
+    --text-preset-letter-spacing: var(--font-h4--letter-spacing);
+    --text-preset-case: var(--font-h4--case);
+    --text-preset-color: var(--color, var(--font-h4-color));
+  }
+
+  .text-block.text-block--mobile-preset-h5 {
+    --text-preset-family: var(--font-h5--family);
+    --text-preset-style: var(--font-h5--style);
+    --text-preset-weight: var(--font-h5--weight);
+    --text-preset-size: var(--font-h5--size);
+    --text-preset-line-height: var(--font-h5--line-height);
+    --text-preset-letter-spacing: var(--font-h5--letter-spacing);
+    --text-preset-case: var(--font-h5--case);
+    --text-preset-color: var(--color, var(--font-h5-color));
+  }
+
+  .text-block.text-block--mobile-preset-h6 {
+    --text-preset-family: var(--font-h6--family);
+    --text-preset-style: var(--font-h6--style);
+    --text-preset-weight: var(--font-h6--weight);
+    --text-preset-size: var(--font-h6--size);
+    --text-preset-line-height: var(--font-h6--line-height);
+    --text-preset-letter-spacing: var(--font-h6--letter-spacing);
+    --text-preset-case: var(--font-h6--case);
+    --text-preset-color: var(--color, var(--font-h6-color));
+  }
+
+  /*
+    When desktop preset is Default (rte), base preset rules don't apply
+    (e.g. .text-block.h2 > *). Apply mobile variables directly for rte text blocks.
+  */
+  .text-block.rte[class*='text-block--mobile-preset-'] > * {
+    font-family: var(--text-preset-family, inherit);
+    font-style: var(--text-preset-style, inherit);
+    font-weight: var(--text-preset-weight, inherit);
+    font-size: var(--text-preset-size, inherit);
+    line-height: var(--text-preset-line-height, inherit);
+    letter-spacing: var(--text-preset-letter-spacing, inherit);
+    text-transform: var(--text-preset-case, inherit);
+    color: var(--text-preset-color, inherit);
   }
 }

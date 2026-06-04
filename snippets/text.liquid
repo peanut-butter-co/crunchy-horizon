@@ -51,6 +51,7 @@
 
 {% capture attributes %}
   class="{{ class }} spacing-style text-block text-block--{{ block.id }} {{ block_settings.type_preset }}
+    {%- if block_settings.type_preset_mobile != blank %} text-block--mobile-preset-{{ block_settings.type_preset_mobile }}{%- endif -%}
     {{ text_block_classes }}
   "
 
