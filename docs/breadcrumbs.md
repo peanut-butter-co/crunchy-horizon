@@ -170,7 +170,17 @@ Padding is applied via the `spacing-style` snippet, which outputs responsive CSS
 | Owner | Namespace | Key | Type | Description |
 |-------|-----------|-----|------|-------------|
 | Product | `custom` | `main_category` | Collection (single) | The product's primary collection, used to build the breadcrumb path on direct product URLs |
-| Shop | `custom` | `main_category` | Collection (single) | Fallback if the product metafield is not set |
+| Shop | `custom` | `main_category` | Collection (single) | Global fallback if neither the product metafield nor the product type resolves |
+
+### Collection resolution priority (direct product URLs)
+
+`breadcrumbs-metafield` resolves the collection handle in this order:
+
+1. **`product.metafields.custom.main_category`** — explicit per-product override
+2. **`product.type | handleize`** — automatic fallback; works if the product type matches a collection handle in the breadcrumbs menu (e.g. product type "Snowboard" → collection `snowboard`)
+3. **`shop.metafields.custom.main_category`** — global store fallback
+
+This means many products never need the metafield manually assigned — setting `product.type` correctly is enough.
 
 ## Structured Data (JSON-LD)
 

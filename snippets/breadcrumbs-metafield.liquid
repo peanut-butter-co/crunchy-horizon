@@ -11,6 +11,9 @@
 {%- liquid
   assign breadcrumbs_collection = product.metafields.custom.main_category.value.handle
   if breadcrumbs_collection == blank
+    assign breadcrumbs_collection = product.type | handleize
+  endif
+  if breadcrumbs_collection == blank
     assign breadcrumbs_collection = shop.metafields.custom.main_category.value.handle
   endif
   assign finished = false
@@ -28,7 +31,7 @@
     {%- comment -%}
       Skip non-collection links — product breadcrumbs are composed of collections only.
     {%- endcomment -%}
-    {%- if finished or link_level_1.type != 'collection_link' -%}
+    {%- if finished -%}
       {%- continue -%}
     {%- endif -%}
       {%- capture breadcrumbs_level_1 -%}
