@@ -4221,7 +4221,7 @@ product-recommendations:has([data-has-recommendations='false']) {
  * Only applies to .text-block elements — inputs use the 1200px breakpoint for iOS zoom prevention.
  */
 @media screen and (max-width: 749px) {
-  .text-block.text-block--mobile-preset-rte {
+  .text-block--mobile-preset-rte {
     --text-preset-family: var(--font-body--family);
     --text-preset-style: var(--font-body--style);
     --text-preset-weight: var(--font-body--weight);
@@ -4232,7 +4232,7 @@ product-recommendations:has([data-has-recommendations='false']) {
     --text-preset-color: var(--color, var(--color-foreground));
   }
 
-  .text-block.text-block--mobile-preset-paragraph {
+  .text-block--mobile-preset-paragraph {
     --text-preset-family: var(--font-paragraph--family);
     --text-preset-style: var(--font-paragraph--style);
     --text-preset-weight: var(--font-paragraph--weight);
@@ -4243,7 +4243,7 @@ product-recommendations:has([data-has-recommendations='false']) {
     --text-preset-color: var(--color, var(--color-foreground));
   }
 
-  .text-block.text-block--mobile-preset-h1 {
+  .text-block--mobile-preset-h1 {
     --text-preset-family: var(--font-h1--family);
     --text-preset-style: var(--font-h1--style);
     --text-preset-weight: var(--font-h1--weight);
@@ -4254,7 +4254,7 @@ product-recommendations:has([data-has-recommendations='false']) {
     --text-preset-color: var(--color, var(--font-h1-color));
   }
 
-  .text-block.text-block--mobile-preset-h2 {
+  .text-block--mobile-preset-h2 {
     --text-preset-family: var(--font-h2--family);
     --text-preset-style: var(--font-h2--style);
     --text-preset-weight: var(--font-h2--weight);
@@ -4265,7 +4265,7 @@ product-recommendations:has([data-has-recommendations='false']) {
     --text-preset-color: var(--color, var(--font-h2-color));
   }
 
-  .text-block.text-block--mobile-preset-h3 {
+  .text-block--mobile-preset-h3 {
     --text-preset-family: var(--font-h3--family);
     --text-preset-style: var(--font-h3--style);
     --text-preset-weight: var(--font-h3--weight);
@@ -4276,7 +4276,7 @@ product-recommendations:has([data-has-recommendations='false']) {
     --text-preset-color: var(--color, var(--font-h3-color));
   }
 
-  .text-block.text-block--mobile-preset-h4 {
+  .text-block--mobile-preset-h4 {
     --text-preset-family: var(--font-h4--family);
     --text-preset-style: var(--font-h4--style);
     --text-preset-weight: var(--font-h4--weight);
@@ -4287,7 +4287,7 @@ product-recommendations:has([data-has-recommendations='false']) {
     --text-preset-color: var(--color, var(--font-h4-color));
   }
 
-  .text-block.text-block--mobile-preset-h5 {
+  .text-block--mobile-preset-h5 {
     --text-preset-family: var(--font-h5--family);
     --text-preset-style: var(--font-h5--style);
     --text-preset-weight: var(--font-h5--weight);
@@ -4298,7 +4298,7 @@ product-recommendations:has([data-has-recommendations='false']) {
     --text-preset-color: var(--color, var(--font-h5-color));
   }
 
-  .text-block.text-block--mobile-preset-h6 {
+  .text-block--mobile-preset-h6 {
     --text-preset-family: var(--font-h6--family);
     --text-preset-style: var(--font-h6--style);
     --text-preset-weight: var(--font-h6--weight);
@@ -4309,7 +4309,7 @@ product-recommendations:has([data-has-recommendations='false']) {
     --text-preset-color: var(--color, var(--font-h6-color));
   }
 
-  .text-block.text-block--mobile-preset-custom {
+  .text-block--mobile-preset-custom {
     --text-preset-family: var(--font-family-mobile, var(--font-family));
     --text-preset-style: normal;
     --text-preset-weight: var(--font-weight-mobile, var(--font-weight));
