@@ -4309,6 +4309,18 @@ product-recommendations:has([data-has-recommendations='false']) {
     --text-preset-color: var(--color, var(--font-h6-color));
   }
 
+  .text-block.text-block--mobile-preset-custom {
+    --text-preset-family: var(--font-family-mobile, var(--font-family));
+    --text-preset-style: normal;
+    --text-preset-weight: var(--font-weight-mobile, var(--font-weight));
+    --text-preset-size: var(--font-size-mobile, var(--font-size));
+    --text-preset-line-height: var(--line-height-mobile, var(--line-height));
+    --text-preset-letter-spacing: var(--letter-spacing-mobile, var(--letter-spacing));
+    --text-preset-case: var(--text-transform-mobile, var(--text-transform));
+    --text-preset-color: var(--color, var(--color-foreground));
+    --text-wrap: var(--text-wrap-mobile, var(--text-wrap));
+  }
+
   /*
     When desktop preset is Default (rte), base preset rules don't apply
     (e.g. .text-block.h2 > *). Apply mobile variables directly for rte text blocks.
