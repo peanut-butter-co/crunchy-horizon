@@ -2284,5 +2284,46 @@
         "default": "equal-width-buttons"
       }
     ]
+  },
+  {
+    "name": "t:names.breadcrumbs",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "breadcrumbs_enabled",
+        "label": "t:settings.breadcrumbs_enabled",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "breadcrumbs_separator",
+        "label": "t:settings.breadcrumbs_separator",
+        "default": "/"
+      },
+      {
+        "type": "checkbox",
+        "id": "breadcrumbs_show_home",
+        "label": "t:settings.breadcrumbs_show_home",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "breadcrumbs_show_product_title",
+        "label": "t:settings.breadcrumbs_show_product_title",
+        "default": true
+      },
+      {
+        "type": "link_list",
+        "id": "breadcrumbs_menu",
+        "label": "t:settings.breadcrumbs_menu",
+        "info": "t:info.breadcrumbs_menu"
+      },
+      {
+        "type": "textarea",
+        "id": "breadcrumbs_excluded_paths",
+        "label": "t:settings.breadcrumbs_excluded_paths",
+        "info": "t:info.breadcrumbs_excluded_paths"
+      }
+    ]
   }
 ]
