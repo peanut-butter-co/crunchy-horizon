@@ -80,20 +80,19 @@
     --type-preset-mobile: {{ settings.type_preset_mobile }};
     {%- if settings.type_preset_mobile == 'custom' -%}
       {%- liquid
-        unless type
-          if settings.font_size_mobile != blank
-            assign font_size_mobile_value = settings.font_size_mobile | split: 'rem' | first | times: 1.0
-            if font_size_mobile_value > 4.5
-              assign type = 'display'
-            elsif font_size_mobile_value > 3.5
-              assign type = 'heading'
-            else
-              assign type = 'body'
-            endif
+        # Use a separate mobile_type variable to avoid inheriting type set by the desktop custom preset
+        if settings.font_size_mobile != blank
+          assign font_size_mobile_value = settings.font_size_mobile | split: 'rem' | first | times: 1.0
+          if font_size_mobile_value > 4.5
+            assign mobile_type = 'display'
+          elsif font_size_mobile_value > 3.5
+            assign mobile_type = 'heading'
           else
-            assign type = 'body'
+            assign mobile_type = 'body'
           endif
-        endunless
+        else
+          assign mobile_type = type | default: 'body'
+        endif
       -%}
       {%- if settings.font_size_mobile != blank -%}
         {%- liquid
@@ -122,8 +121,8 @@
       {%- endif -%}
       --text-transform-mobile: {{ settings.case_mobile }};
       --text-wrap-mobile: {{ settings.wrap_mobile | default: 'pretty' }};
-      --line-height-mobile: var(--line-height--{{ type }}-{{ settings.line_height_mobile }});
-      --letter-spacing-mobile: var(--letter-spacing--{{ type }}-{{ settings.letter_spacing_mobile }});
+      --line-height-mobile: var(--line-height--{{ mobile_type }}-{{ settings.line_height_mobile }});
+      --letter-spacing-mobile: var(--letter-spacing--{{ mobile_type }}-{{ settings.letter_spacing_mobile }});
     {%- endif -%}
   {%- endif -%}
 {%- endcapture -%}
