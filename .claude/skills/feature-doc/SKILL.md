@@ -3,9 +3,9 @@ name: feature-doc
 description: >
   Generates standardized feature documentation in the docs/ folder whenever a new Shopify theme
   feature or functionality has been added or completed. Use this skill automatically after finishing
-  any new section, block, snippet, or feature — even if the user doesn't explicitly ask for docs.
-  Also trigger when the user says things like "document this", "create the doc", "add docs for X",
-  "genera el doc", "crea la documentación", or when they finish a feature and ask what's next.
+  any new section, block, snippet, or feature, even if the user does not explicitly ask for docs.
+  Also trigger when the user says things like: document this, create the doc, add docs for X,
+  genera el doc, crea la documentacion, or when they finish a feature and ask what is next.
   The output is a populated Markdown file in docs/ based on the project's _TEMPLATE.md.
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 argument-hint: [feature-name] [brief description]
