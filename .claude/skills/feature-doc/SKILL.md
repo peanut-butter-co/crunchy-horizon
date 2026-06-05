@@ -8,7 +8,7 @@ description: >
   genera el doc, crea la documentacion, or when they finish a feature and ask what is next.
   The output is a populated Markdown file in docs/ based on the project's _TEMPLATE.md.
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash
-argument-hint: [feature-name] [brief description]
+argument-hint: "[feature-name] [brief description]"
 ---
 
 ## Generate Feature Documentation
