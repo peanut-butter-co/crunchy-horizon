@@ -3,149 +3,98 @@
   active branch. Used for collection pages and products accessed via a
   collection URL.
 
+  @param {string} settings.breadcrumbs_menu    - Handle of the navigation menu to traverse
+  @param {boolean} settings.breadcrumbs_show_home    - Whether to prepend a separator before level 1
+  @param {string} settings.breadcrumbs_separator     - Character between breadcrumb items
+  @param {boolean} settings.breadcrumbs_show_product_title - Append product title on product pages
+
   @example
-  {% render 'breadcrumbs-link-active', section: section %}
+  {% render 'breadcrumbs-link-active' %}
 {% enddoc %}
 
-{%- assign this_template = template | split: '.' | first -%}
-{%- assign deepest_level = 0 -%}
-{%- comment -%}
-  LEVEL 1
-{%- endcomment -%}
-{% assign menu = settings.breadcrumbs_menu %}
-{% for link_level_1 in linklists[menu].links %}
-  {% if link_level_1.child_active or link_level_1.active %}
-    {%- capture breadcrumbs_level_1 -%}
-      <a class="breadcrumbs__item" href="{{ link_level_1.url }}">
-      {{ link_level_1.title | escape }}
-      </a>
-    {%- endcapture -%}
-    {%- capture breadcrumbs_level_1_no_link -%}
-      <span class="breadcrumbs__item breadcrumbs__item--active" aria-current="page">
-        {{ link_level_1.title | escape }}
-      </span>
-    {%- endcapture -%}
+{%- liquid
+  assign this_template = template | split: '.' | first
+  assign deepest_level = 0
+  assign show_home = settings.breadcrumbs_show_home
+  assign separator = settings.breadcrumbs_separator
+  assign menu_links = linklists[settings.breadcrumbs_menu].links
+-%}
+
+{%- comment -%}LEVEL 1{%- endcomment -%}
+{%- for link_level_1 in menu_links -%}
+  {%- if link_level_1.child_active or link_level_1.active -%}
+    {%- capture breadcrumbs_level_1 -%}<a class="breadcrumbs__item" href="{{ link_level_1.url }}">{{ link_level_1.title | escape }}</a>{%- endcapture -%}
+    {%- capture breadcrumbs_level_1_no_link -%}<span class="breadcrumbs__item breadcrumbs__item--active" aria-current="page">{{ link_level_1.title | escape }}</span>{%- endcapture -%}
     {%- assign deepest_level = 1 -%}
     {%- assign breadcrumbs_level_1_url = link_level_1.url -%}
     {%- assign breadcrumbs_level_1_title = link_level_1.title -%}
 
-    {%- comment -%}
-      LEVEL 2
-    {%- endcomment -%}
-    {% for link_level_2 in link_level_1.links %}
-      {% if link_level_2.child_active or link_level_2.active %}
-        {%- capture breadcrumbs_level_2 -%}
-          <a class="breadcrumbs__item" href="{{ link_level_2.url }}">
-          {{ link_level_2.title | escape }}
-          </a>
-        {%- endcapture -%}
-        {%- capture breadcrumbs_level_2_no_link -%}
-          <span class="breadcrumbs__item breadcrumbs__item--active" aria-current="page">
-            {{ link_level_2.title | escape }}
-          </span>
-        {%- endcapture -%}
+    {%- comment -%}LEVEL 2{%- endcomment -%}
+    {%- for link_level_2 in link_level_1.links -%}
+      {%- if link_level_2.child_active or link_level_2.active -%}
+        {%- capture breadcrumbs_level_2 -%}<a class="breadcrumbs__item" href="{{ link_level_2.url }}">{{ link_level_2.title | escape }}</a>{%- endcapture -%}
+        {%- capture breadcrumbs_level_2_no_link -%}<span class="breadcrumbs__item breadcrumbs__item--active" aria-current="page">{{ link_level_2.title | escape }}</span>{%- endcapture -%}
         {%- assign deepest_level = 2 -%}
         {%- assign breadcrumbs_level_2_url = link_level_2.url -%}
         {%- assign breadcrumbs_level_2_title = link_level_2.title -%}
 
-        {%- comment -%}
-          LEVEL 3
-        {%- endcomment -%}
-        {% for link_level_3 in link_level_2.links %}
-          {% if link_level_3.child_active or link_level_3.active %}
-            {%- capture breadcrumbs_level_3 -%}
-              <a class="breadcrumbs__item" href="{{ link_level_3.url }}">
-              {{ link_level_3.title | escape }}
-              </a>
-            {%- endcapture -%}
-            {%- capture breadcrumbs_level_3_no_link -%}
-              <span class="breadcrumbs__item breadcrumbs__item--active" aria-current="page">
-                {{ link_level_3.title | escape }}
-              </span>
-            {%- endcapture -%}
+        {%- comment -%}LEVEL 3{%- endcomment -%}
+        {%- for link_level_3 in link_level_2.links -%}
+          {%- if link_level_3.child_active or link_level_3.active -%}
+            {%- capture breadcrumbs_level_3 -%}<a class="breadcrumbs__item" href="{{ link_level_3.url }}">{{ link_level_3.title | escape }}</a>{%- endcapture -%}
+            {%- capture breadcrumbs_level_3_no_link -%}<span class="breadcrumbs__item breadcrumbs__item--active" aria-current="page">{{ link_level_3.title | escape }}</span>{%- endcapture -%}
             {%- assign deepest_level = 3 -%}
             {%- assign breadcrumbs_level_3_url = link_level_3.url -%}
             {%- assign breadcrumbs_level_3_title = link_level_3.title -%}
-            {%- comment -%}
-              LEVEL 4
-            {%- endcomment -%}
-            {% for link_level_4 in link_level_3.links %}
-              {% if link_level_4.child_active or link_level_4.active %}
-                {%- capture breadcrumbs_level_4 -%}
-                  <a class="breadcrumbs__item" href="{{ link_level_4.url }}">
-                  {{ link_level_4.title | escape }}
-                  </a>
-                {%- endcapture -%}
-                {%- capture breadcrumbs_level_4_no_link -%}
-                  <span class="breadcrumbs__item breadcrumbs__item--active" aria-current="page">
-                    {{ link_level_4.title | escape }}
-                  </span>
-                {%- endcapture -%}
+
+            {%- comment -%}LEVEL 4{%- endcomment -%}
+            {%- for link_level_4 in link_level_3.links -%}
+              {%- if link_level_4.child_active or link_level_4.active -%}
+                {%- capture breadcrumbs_level_4 -%}<a class="breadcrumbs__item" href="{{ link_level_4.url }}">{{ link_level_4.title | escape }}</a>{%- endcapture -%}
+                {%- capture breadcrumbs_level_4_no_link -%}<span class="breadcrumbs__item breadcrumbs__item--active" aria-current="page">{{ link_level_4.title | escape }}</span>{%- endcapture -%}
                 {%- assign deepest_level = 4 -%}
                 {%- assign breadcrumbs_level_4_url = link_level_4.url -%}
                 {%- assign breadcrumbs_level_4_title = link_level_4.title -%}
-                {% break %}
-              {% endif %}
+                {%- break -%}
+              {%- endif -%}
             {%- endfor -%}
-            {% break %}
-          {% endif %}
+            {%- break -%}
+          {%- endif -%}
         {%- endfor -%}
-        {% break %}
-      {% endif %}
+        {%- break -%}
+      {%- endif -%}
     {%- endfor -%}
-    {% break %}
-  {% endif %}
+    {%- break -%}
+  {%- endif -%}
 {%- endfor -%}
 
-{%- comment -%}
-  Render Breadcrumbs
-{%- endcomment -%}
-{% unless breadcrumbs_level_1 == blank %}
-  {%- if settings.breadcrumbs_show_home -%}<span class="breadcrumbs__separator" aria-hidden="true">{{ settings.breadcrumbs_separator }}</span>{%- endif -%}
-{% endunless %}
-{%- if deepest_level == 1 and this_template != 'product' -%}
-  {{ breadcrumbs_level_1_no_link }}
-{%- else -%}
-  {{ breadcrumbs_level_1 }}
-{%- endif -%}
+{%- comment -%}Render breadcrumb trail{%- endcomment -%}
+{%- unless breadcrumbs_level_1 == blank -%}
+  {%- if show_home -%}<span class="breadcrumbs__separator" aria-hidden="true">{{ separator }}</span>{%- endif -%}
+{%- endunless -%}
+{%- if deepest_level == 1 and this_template != 'product' -%}{{ breadcrumbs_level_1_no_link }}{%- else -%}{{ breadcrumbs_level_1 }}{%- endif -%}
 
-{% unless breadcrumbs_level_2 == blank %}
-  <span class="breadcrumbs__separator" aria-hidden="true">{{ settings.breadcrumbs_separator }}</span>
-{% endunless %}
-{%- if deepest_level == 2 and this_template != 'product' -%}
-  {{ breadcrumbs_level_2_no_link }}
-{%- else -%}
-  {{ breadcrumbs_level_2 }}
-{%- endif -%}
+{%- unless breadcrumbs_level_2 == blank -%}
+  <span class="breadcrumbs__separator" aria-hidden="true">{{ separator }}</span>
+{%- endunless -%}
+{%- if deepest_level == 2 and this_template != 'product' -%}{{ breadcrumbs_level_2_no_link }}{%- else -%}{{ breadcrumbs_level_2 }}{%- endif -%}
 
-{% unless breadcrumbs_level_3 == blank %}
-  <span class="breadcrumbs__separator" aria-hidden="true">
-    {{ settings.breadcrumbs_separator }}
-  </span>
-{% endunless %}
-{%- if deepest_level == 3 and this_template != 'product' -%}
-  {{ breadcrumbs_level_3_no_link }}
-{%- else -%}
-  {{ breadcrumbs_level_3 }}
-{%- endif -%}
+{%- unless breadcrumbs_level_3 == blank -%}
+  <span class="breadcrumbs__separator" aria-hidden="true">{{ separator }}</span>
+{%- endunless -%}
+{%- if deepest_level == 3 and this_template != 'product' -%}{{ breadcrumbs_level_3_no_link }}{%- else -%}{{ breadcrumbs_level_3 }}{%- endif -%}
 
-{% unless breadcrumbs_level_4 == blank %}
-  <span class="breadcrumbs__separator" aria-hidden="true">{{ settings.breadcrumbs_separator }}</span>
-{% endunless %}
-{%- if deepest_level == 4 and this_template != 'product' -%}
-  {{ breadcrumbs_level_4_no_link }}
-{%- else -%}
-  {{ breadcrumbs_level_4 }}
-{%- endif -%}
+{%- unless breadcrumbs_level_4 == blank -%}
+  <span class="breadcrumbs__separator" aria-hidden="true">{{ separator }}</span>
+{%- endunless -%}
+{%- if deepest_level == 4 and this_template != 'product' -%}{{ breadcrumbs_level_4_no_link }}{%- else -%}{{ breadcrumbs_level_4 }}{%- endif -%}
 
 {%- if this_template == 'product' and settings.breadcrumbs_show_product_title and product.title != blank -%}
-  <span class="breadcrumbs__separator" aria-hidden="true">{{ settings.breadcrumbs_separator }}</span>
+  <span class="breadcrumbs__separator" aria-hidden="true">{{ separator }}</span>
   <span class="breadcrumbs__item breadcrumbs__item--current" aria-current="page">{{ product.title | escape }}</span>
 {%- endif -%}
 
-{%- comment -%}
-  BreadcrumbList structured data (JSON-LD)
-{%- endcomment -%}
+{%- comment -%}BreadcrumbList structured data (JSON-LD){%- endcomment -%}
 {%- unless deepest_level == 0 -%}
   {%- assign jsonld_position = 0 -%}
   <script type="application/ld+json">
@@ -153,7 +102,7 @@
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       "itemListElement": [
-        {%- if settings.breadcrumbs_show_home -%}
+        {%- if show_home -%}
           {%- assign jsonld_position = jsonld_position | plus: 1 -%}
           { "@type": "ListItem", "position": {{ jsonld_position }}, "name": {{ 'general.breadcrumbs.home' | t | json }}, "item": {{ routes.root_url | prepend: request.origin | json }} }
         {%- endif -%}
