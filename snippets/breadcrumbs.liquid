@@ -1,0 +1,130 @@
+{% doc %}
+  Renders a breadcrumb trail based on the current page template.
+
+  Uses blog/article objects for blog templates, delegates to
+  breadcrumbs-link-active for collection pages, and breadcrumbs-metafield
+  for direct product pages.
+
+  @example
+  {% render 'breadcrumbs' %}
+{% enddoc %}
+
+{%- liquid
+  assign show_breadcrumbs = true
+  assign excluded_paths = settings.breadcrumbs_excluded_paths | split: ","
+  for path in excluded_paths
+    assign trimmed_path = path | strip
+    if trimmed_path == blank
+      continue
+    endif
+    if request.path contains trimmed_path
+      assign show_breadcrumbs = false
+      break
+    endif
+  endfor
+-%}
+
+{%- unless show_breadcrumbs == false or settings.breadcrumbs_enabled == false -%}
+  <nav aria-label="{{ 'general.breadcrumbs.label' | t }}">
+    <div class="breadcrumbs">
+      {%- if settings.breadcrumbs_show_home -%}
+        <a href="{{ routes.root_url }}" title="{{ 'general.breadcrumbs.home' | t }}" class="breadcrumbs__item">
+          <span>
+            {{ 'general.breadcrumbs.home' | t }}
+          </span>
+        </a>
+      {%- endif -%}
+      {%- assign this_template = template | split: '.' | first -%}
+
+      {%- if this_template == 'blog' -%}
+        {%- if settings.breadcrumbs_show_home -%}<span class="breadcrumbs__separator" aria-hidden="true">{{ settings.breadcrumbs_separator }}</span>{%- endif -%}
+        <span class="breadcrumbs__item breadcrumbs__item--active" aria-current="page">
+          {{ blog.title | escape }}
+        </span>
+      {%- elsif this_template == 'article' -%}
+        {%- if settings.breadcrumbs_show_home -%}<span class="breadcrumbs__separator" aria-hidden="true">{{ settings.breadcrumbs_separator }}</span>{%- endif -%}
+        <a class="breadcrumbs__item" href="{{ blog.url }}">
+          {{ blog.title | escape }}
+        </a>
+        <span class="breadcrumbs__separator" aria-hidden="true">{{ settings.breadcrumbs_separator }}</span>
+        <span class="breadcrumbs__item breadcrumbs__item--active" aria-current="page">
+          {{ article.title | escape }}
+        </span>
+      {%- elsif this_template != 'product' or request.path contains '/collections/' -%}
+        {% render 'breadcrumbs-link-active', section: section %}
+      {%- else -%}
+        {% render 'breadcrumbs-metafield', section: section %}
+      {%- endif -%}
+    </div>
+  </nav>
+
+  {%- comment -%}
+    BreadcrumbList structured data (JSON-LD).
+    Collection/product paths output their own JSON-LD in their respective snippets.
+  {%- endcomment -%}
+  {%- if this_template == 'blog' -%}
+    {%- assign jsonld_position = 0 -%}
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {%- if settings.breadcrumbs_show_home -%}
+            {%- assign jsonld_position = jsonld_position | plus: 1 -%}
+            { "@type": "ListItem", "position": {{ jsonld_position }}, "name": {{ 'general.breadcrumbs.home' | t | json }}, "item": {{ routes.root_url | prepend: request.origin | json }} },
+          {%- endif -%}
+          {%- assign jsonld_position = jsonld_position | plus: 1 -%}
+          { "@type": "ListItem", "position": {{ jsonld_position }}, "name": {{ blog.title | json }}, "item": {{ blog.url | prepend: request.origin | json }} }
+        ]
+      }
+    </script>
+  {%- elsif this_template == 'article' -%}
+    {%- assign jsonld_position = 0 -%}
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {%- if settings.breadcrumbs_show_home -%}
+            {%- assign jsonld_position = jsonld_position | plus: 1 -%}
+            { "@type": "ListItem", "position": {{ jsonld_position }}, "name": {{ 'general.breadcrumbs.home' | t | json }}, "item": {{ routes.root_url | prepend: request.origin | json }} },
+          {%- endif -%}
+          {%- assign jsonld_position = jsonld_position | plus: 1 -%}
+          { "@type": "ListItem", "position": {{ jsonld_position }}, "name": {{ blog.title | json }}, "item": {{ blog.url | prepend: request.origin | json }} },
+          {%- assign jsonld_position = jsonld_position | plus: 1 -%}
+          { "@type": "ListItem", "position": {{ jsonld_position }}, "name": {{ article.title | json }}, "item": {{ article.url | prepend: request.origin | json }} }
+        ]
+      }
+    </script>
+  {%- endif -%}
+{%- endunless -%}
+
+{% stylesheet %}
+  .breadcrumbs {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 0 var(--gap-xs);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .breadcrumbs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .breadcrumbs__separator {
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  .breadcrumbs__item {
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .breadcrumbs__item--active,
+  .breadcrumbs__item--current {
+    color: rgb(var(--color-foreground-rgb) / 0.6);
+  }
+{% endstylesheet %}
