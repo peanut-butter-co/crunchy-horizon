@@ -214,6 +214,7 @@
     "actions_display_style": "Icons are always used on mobile",
     "breadcrumbs_excluded_paths": "Enter paths to hide breadcrumbs on, separated by commas.",
     "breadcrumbs_menu": "Select the navigation menu used to build the breadcrumb hierarchy.",
+    "mobile_preset_fallback": "Leave empty to use the desktop preset on mobile",
     "shopify_font_picker": "Only shown when 'Shopify fonts' is selected",
     "applies_on_image_only": "Applies to images only",
     "aspect_ratio_adjusted": "Adjusted in some layouts",
@@ -741,6 +742,7 @@
     // Gradient direction option, upward flow
     "up": "Up",
     "uppercase": "Uppercase",
+    "use_desktop_preset": "Use desktop preset",
     "vertical": "Vertical",
     "video": "Video",
     "video_external_url": "External URL",
@@ -1013,6 +1015,7 @@
     "desktop_position": "Desktop position",
     "post_count": "Post count",
     "preset": "Preset",
+    "preset_mobile": "Mobile preset",
     "product_price_typography": "Product price typography",
     "product_title_typography": "Product title typography",
     "primary_button_background": "Primary button background",
