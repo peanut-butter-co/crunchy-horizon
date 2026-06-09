@@ -4,8 +4,18 @@
   `custom.main_category` to find the matching collection in the
   breadcrumbs menu.
 
+  Priority order for resolving the collection:
+  1. product.metafields.custom.main_category
+  2. product.type | handleize (auto-fallback if type matches a menu collection)
+  3. shop.metafields.custom.main_category (global fallback)
+
+  @param {string} settings.breadcrumbs_menu               - Handle of the navigation menu to traverse
+  @param {boolean} settings.breadcrumbs_show_home         - Whether to prepend a separator before level 1
+  @param {string} settings.breadcrumbs_separator          - Character between breadcrumb items
+  @param {boolean} settings.breadcrumbs_show_product_title - Append product title as final crumb
+
   @example
-  {% render 'breadcrumbs-metafield', section: section %}
+  {% render 'breadcrumbs-metafield' %}
 {% enddoc %}
 
 {%- liquid
@@ -18,143 +28,101 @@
   endif
   assign finished = false
   assign highest_level = 1
-  assign menu = settings.breadcrumbs_menu
+  assign show_home = settings.breadcrumbs_show_home
+  assign separator = settings.breadcrumbs_separator
+  assign menu_links = linklists[settings.breadcrumbs_menu].links
 -%}
 
+{%- if breadcrumbs_collection != blank -%}
 
-{%- unless breadcrumbs_collection == blank -%}
-  {%- comment -%}
-    LEVEL 1
-  {%- endcomment -%}
+  {%- comment -%}LEVEL 1{%- endcomment -%}
+  {%- for link_level_1 in menu_links -%}
+    {%- if finished -%}{%- continue -%}{%- endif -%}
+    {%- capture breadcrumbs_level_1 -%}<a class="breadcrumbs__item" href="{{ link_level_1.url }}">{{ link_level_1.title | escape }}</a>{%- endcapture -%}
+    {%- assign breadcrumbs_level_1_url = link_level_1.url -%}
+    {%- assign breadcrumbs_level_1_title = link_level_1.title -%}
 
-  {% for link_level_1 in linklists[menu].links %}
-    {%- if finished -%}
-      {%- continue -%}
+    {%- if link_level_1.object.handle == breadcrumbs_collection -%}
+      {%- assign finished = true -%}
+      {%- break -%}
     {%- endif -%}
-      {%- capture breadcrumbs_level_1 -%}
-        <a class="breadcrumbs__item" href="{{ link_level_1.url }}">
-        {{ link_level_1.title | escape }}
-        </a>
-      {%- endcapture -%}
-      {%- assign breadcrumbs_level_1_url = link_level_1.url -%}
-      {%- assign breadcrumbs_level_1_title = link_level_1.title -%}
 
-      {%- if link_level_1.object.handle == breadcrumbs_collection -%}
+    {%- comment -%}LEVEL 2{%- endcomment -%}
+    {%- for link_level_2 in link_level_1.links -%}
+      {%- if finished or link_level_2.type != 'collection_link' -%}{%- continue -%}{%- endif -%}
+      {%- capture breadcrumbs_level_2 -%}<a class="breadcrumbs__item" href="{{ link_level_2.url }}">{{ link_level_2.title | escape }}</a>{%- endcapture -%}
+      {%- assign breadcrumbs_level_2_url = link_level_2.url -%}
+      {%- assign breadcrumbs_level_2_title = link_level_2.title -%}
+
+      {%- if link_level_2.object.handle == breadcrumbs_collection -%}
         {%- assign finished = true -%}
-        {% break %}
+        {%- assign highest_level = 2 -%}
+        {%- break -%}
       {%- endif -%}
 
-      {%- comment -%}
-        LEVEL 2
-      {%- endcomment -%}
-      {% for link_level_2 in link_level_1.links %}
-        {%- if finished or link_level_2.type != 'collection_link' -%}
-          {%- continue -%}
-        {%- endif -%}
+      {%- comment -%}LEVEL 3{%- endcomment -%}
+      {%- for link_level_3 in link_level_2.links -%}
+        {%- if finished or link_level_3.type != 'collection_link' -%}{%- continue -%}{%- endif -%}
+        {%- capture breadcrumbs_level_3 -%}<a class="breadcrumbs__item" href="{{ link_level_3.url }}">{{ link_level_3.title | escape }}</a>{%- endcapture -%}
+        {%- assign breadcrumbs_level_3_url = link_level_3.url -%}
+        {%- assign breadcrumbs_level_3_title = link_level_3.title -%}
 
-        {%- capture breadcrumbs_level_2 -%}
-          <a class="breadcrumbs__item" href="{{ link_level_2.url }}">
-          {{ link_level_2.title | escape }}
-          </a>
-        {%- endcapture -%}
-        {%- assign breadcrumbs_level_2_url = link_level_2.url -%}
-        {%- assign breadcrumbs_level_2_title = link_level_2.title -%}
-
-        {%- if link_level_2.object.handle == breadcrumbs_collection -%}
+        {%- if link_level_3.object.handle == breadcrumbs_collection -%}
           {%- assign finished = true -%}
-          {%- assign highest_level = 2 -%}
-          {% break %}
+          {%- assign highest_level = 3 -%}
+          {%- break -%}
         {%- endif -%}
 
-        {%- comment -%}
-          LEVEL 3
-        {%- endcomment -%}
+        {%- comment -%}LEVEL 4{%- endcomment -%}
+        {%- for link_level_4 in link_level_3.links -%}
+          {%- if finished or link_level_4.type != 'collection_link' -%}{%- continue -%}{%- endif -%}
+          {%- capture breadcrumbs_level_4 -%}<a class="breadcrumbs__item" href="{{ link_level_4.url }}">{{ link_level_4.title | escape }}</a>{%- endcapture -%}
+          {%- assign breadcrumbs_level_4_url = link_level_4.url -%}
+          {%- assign breadcrumbs_level_4_title = link_level_4.title -%}
 
-        {% for link_level_3 in link_level_2.links %}
-
-          {%- if finished or link_level_3.type != 'collection_link' -%}
-            {%- continue -%}
-          {%- endif -%}
-
-          {%- capture breadcrumbs_level_3 -%}
-            <a class="breadcrumbs__item" href="{{ link_level_3.url }}">
-            {{ link_level_3.title | escape }}
-            </a>
-          {%- endcapture -%}
-          {%- assign breadcrumbs_level_3_url = link_level_3.url -%}
-          {%- assign breadcrumbs_level_3_title = link_level_3.title -%}
-          {%- if link_level_3.object.handle == breadcrumbs_collection -%}
+          {%- if link_level_4.object.handle == breadcrumbs_collection -%}
             {%- assign finished = true -%}
-            {%- assign highest_level = 3 -%}
-            {% break %}
+            {%- assign highest_level = 4 -%}
+            {%- break -%}
           {%- endif -%}
-
-          {%- comment -%}
-            LEVEL 4
-          {%- endcomment -%}
-          {% for link_level_4 in link_level_3.links %}
-
-              {%- if finished or link_level_4.type != 'collection_link' -%}
-                {%- continue -%}
-              {%- endif -%}
-
-              {%- capture breadcrumbs_level_4 -%}
-                <a class="breadcrumbs__item" href="{{ link_level_4.url }}">
-                {{ link_level_4.title | escape }}
-                </a>
-              {%- endcapture -%}
-              {%- assign breadcrumbs_level_4_url = link_level_4.url -%}
-              {%- assign breadcrumbs_level_4_title = link_level_4.title -%}
-
-              {%- if link_level_4.object.handle == breadcrumbs_collection -%}
-                {%- assign finished = true -%}
-                {%- assign highest_level = 4 -%}
-                {% break %}
-              {%- endif -%}
-
-          {%- endfor -%}
         {%- endfor -%}
-
       {%- endfor -%}
+    {%- endfor -%}
   {%- endfor -%}
 
   {%- if finished -%}
-    {% unless breadcrumbs_level_1 == blank %}{%- if settings.breadcrumbs_show_home -%}<span class="breadcrumbs__separator" aria-hidden="true">{{ settings.breadcrumbs_separator }}</span>{%- endif -%}{% endunless %}
+    {%- unless breadcrumbs_level_1 == blank -%}{%- if show_home -%}<span class="breadcrumbs__separator" aria-hidden="true">{{ separator }}</span>{%- endif -%}{%- endunless -%}
     {{ breadcrumbs_level_1 }}
 
     {%- if highest_level >= 2 -%}
-      {% unless breadcrumbs_level_2 == blank %}<span class="breadcrumbs__separator" aria-hidden="true">{{ settings.breadcrumbs_separator }}</span>{% endunless %}
+      {%- unless breadcrumbs_level_2 == blank -%}<span class="breadcrumbs__separator" aria-hidden="true">{{ separator }}</span>{%- endunless -%}
       {{ breadcrumbs_level_2 }}
     {%- endif -%}
 
     {%- if highest_level >= 3 -%}
-      {% unless breadcrumbs_level_3 == blank %}<span class="breadcrumbs__separator" aria-hidden="true">{{ settings.breadcrumbs_separator }}</span>{% endunless %}
+      {%- unless breadcrumbs_level_3 == blank -%}<span class="breadcrumbs__separator" aria-hidden="true">{{ separator }}</span>{%- endunless -%}
       {{ breadcrumbs_level_3 }}
     {%- endif -%}
 
     {%- if highest_level >= 4 -%}
-      {% unless breadcrumbs_level_4 == blank %}<span class="breadcrumbs__separator" aria-hidden="true">{{ settings.breadcrumbs_separator }}</span>{% endunless %}
+      {%- unless breadcrumbs_level_4 == blank -%}<span class="breadcrumbs__separator" aria-hidden="true">{{ separator }}</span>{%- endunless -%}
       {{ breadcrumbs_level_4 }}
     {%- endif -%}
 
-    {%- comment -%}
-      PRODUCT TITLE (FINAL LEVEL)
-    {%- endcomment -%}
-    {% if settings.breadcrumbs_show_product_title and product.title != blank %}
-      <span class="breadcrumbs__separator" aria-hidden="true">{{ settings.breadcrumbs_separator }}</span>
+    {%- comment -%}Product title (final level){%- endcomment -%}
+    {%- if settings.breadcrumbs_show_product_title and product.title != blank -%}
+      <span class="breadcrumbs__separator" aria-hidden="true">{{ separator }}</span>
       <span class="breadcrumbs__item breadcrumbs__item--current" aria-current="page">{{ product.title | escape }}</span>
-    {% endif %}
+    {%- endif -%}
 
-    {%- comment -%}
-      BreadcrumbList structured data (JSON-LD)
-    {%- endcomment -%}
+    {%- comment -%}BreadcrumbList structured data (JSON-LD){%- endcomment -%}
     {%- assign jsonld_position = 0 -%}
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         "itemListElement": [
-          {%- if settings.breadcrumbs_show_home -%}
+          {%- if show_home -%}
             {%- assign jsonld_position = jsonld_position | plus: 1 -%}
             { "@type": "ListItem", "position": {{ jsonld_position }}, "name": {{ 'general.breadcrumbs.home' | t | json }}, "item": {{ routes.root_url | prepend: request.origin | json }} }
           {%- endif -%}
@@ -180,6 +148,6 @@
         ]
       }
     </script>
-  {% endif %}
+  {%- endif -%}
 
-{%- endunless -%}
+{%- endif -%}
