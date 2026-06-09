@@ -1,0 +1,138 @@
+{% doc %}
+  Custom Fonts Loader
+
+  Conditionally loads custom @font-face declarations based on selected fonts in theme settings.
+  Only loads fonts that are actually being used to minimize file size and improve performance.
+
+  Features:
+  - Deduplicates fonts (same font for multiple types loads once)
+  - For body fonts using Arthura, also loads medium (500) and bold (700) variants for buttons and rich text
+  - Outputs @font-face declarations only for used fonts
+  - Preloads critical fonts (heading fonts) for improved LCP performance
+
+  Available custom fonts:
+  - Selfie Neue Rounded (weight: 400)
+  - Boldonse (weight: 400)
+  - Arthura Regular (weight: 400)
+  - Arthura Medium (weight: 500)
+  - Arthura Bold (weight: 700)
+
+  To add a new font:
+  1. Upload the .woff2 file to /assets/
+  2. Add a new option to the font source selects in config/settings_schema.json
+  3. Add a new `when` case in the @font-face section below
+  4. Add a new `when` case in snippets/theme-styles-variables.liquid for the CSS family variable
+
+  @example
+    {% render 'custom-fonts' %}
+{% enddoc %}
+
+{%- comment -%} Preload critical heading font for improved LCP {%- endcomment -%}
+{%- if settings.type_heading_font_source != 'shopify' -%}
+  {%- assign heading_parts = settings.type_heading_font_source | split: ':' -%}
+  {%- case heading_parts[0] -%}
+    {%- when 'arthura' -%}
+      {%- if heading_parts[1] == '700' -%}
+        {{ 'Arthura-Bold.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
+      {%- elsif heading_parts[1] == '500' -%}
+        {{ 'Arthura-Medium.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
+      {%- else -%}
+        {{ 'Arthura-Regular.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
+      {%- endif -%}
+    {%- when 'selfie-neue-rounded' -%}
+      {{ 'SelfieNeueRounded-Regular.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
+    {%- when 'boldonse' -%}
+      {{ 'Boldonse.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
+  {%- endcase -%}
+{%- endif -%}
+
+{%- liquid
+  # Collect all selected custom fonts across the four font roles
+  assign custom_fonts_needed = ''
+
+  # Body font
+  if settings.type_body_font_source != 'shopify'
+    assign custom_fonts_needed = custom_fonts_needed | append: settings.type_body_font_source | append: ','
+    # Arthura body: also load medium (buttons) and bold (rich text) variants
+    assign body_parts = settings.type_body_font_source | split: ':'
+    if body_parts[0] == 'arthura'
+      assign custom_fonts_needed = custom_fonts_needed | append: 'arthura:500,'
+      assign custom_fonts_needed = custom_fonts_needed | append: 'arthura:700,'
+    endif
+  endif
+
+  # Subheading font
+  if settings.type_subheading_font_source != 'shopify'
+    assign custom_fonts_needed = custom_fonts_needed | append: settings.type_subheading_font_source | append: ','
+  endif
+
+  # Heading font
+  if settings.type_heading_font_source != 'shopify'
+    assign custom_fonts_needed = custom_fonts_needed | append: settings.type_heading_font_source | append: ','
+  endif
+
+  # Accent font
+  if settings.type_accent_font_source != 'shopify'
+    assign custom_fonts_needed = custom_fonts_needed | append: settings.type_accent_font_source | append: ','
+  endif
+
+  # Deduplicate — same font selected for multiple roles loads only once
+  assign custom_fonts_array = custom_fonts_needed | split: ',' | uniq | compact
+-%}
+
+{%- if custom_fonts_array.size > 0 -%}
+  {% style %}
+    {%- for font_entry in custom_fonts_array -%}
+      {%- if font_entry != blank -%}
+        {%- assign parts = font_entry | split: ':' -%}
+        {%- assign font_name = parts[0] -%}
+        {%- assign font_weight = parts[1] -%}
+
+        {%- case font_name -%}
+          {%- when 'selfie-neue-rounded' -%}
+            @font-face {
+              font-family: 'Selfie Neue Rounded';
+              src: url('{{ 'SelfieNeueRounded-Regular.woff2' | asset_url }}') format('woff2');
+              font-weight: 400;
+              font-style: normal;
+              font-display: swap;
+            }
+          {%- when 'boldonse' -%}
+            @font-face {
+              font-family: 'Boldonse';
+              src: url('{{ 'Boldonse.woff2' | asset_url }}') format('woff2');
+              font-weight: 400;
+              font-style: normal;
+              font-display: swap;
+            }
+          {%- when 'arthura' -%}
+            {%- if font_weight == '400' -%}
+              @font-face {
+                font-family: 'Arthura';
+                src: url('{{ 'Arthura-Regular.woff2' | asset_url }}') format('woff2');
+                font-weight: 400;
+                font-style: normal;
+                font-display: swap;
+              }
+            {%- elsif font_weight == '500' -%}
+              @font-face {
+                font-family: 'Arthura';
+                src: url('{{ 'Arthura-Medium.woff2' | asset_url }}') format('woff2');
+                font-weight: 500;
+                font-style: normal;
+                font-display: swap;
+              }
+            {%- elsif font_weight == '700' -%}
+              @font-face {
+                font-family: 'Arthura';
+                src: url('{{ 'Arthura-Bold.woff2' | asset_url }}') format('woff2');
+                font-weight: 700;
+                font-style: normal;
+                font-display: swap;
+              }
+            {%- endif -%}
+        {%- endcase -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {% endstyle %}
+{%- endif -%}

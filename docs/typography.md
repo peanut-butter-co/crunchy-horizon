@@ -6,17 +6,55 @@ Two-part typography system: **custom font selection** (Theme Settings → Typogr
 
 ## Part 1 — Custom Fonts
 
-Merchants choose between Shopify's built-in font picker or a curated set of custom fonts per font role (body, subheading, heading, accent). Default is `shopify` — no breaking change.
+Custom fonts system that allows merchants to choose between Shopify's built-in font picker and a curated set of project custom fonts, configured under Theme Settings → Typography → Fonts.
+
+---
+
+### Architecture
+
+```mermaid
+flowchart LR
+    subgraph Settings["Theme Settings"]
+        BS["type_body_font_source"]
+        SS["type_subheading_font_source"]
+        HS["type_heading_font_source"]
+        AS["type_accent_font_source"]
+        BP["type_body_font (font_picker)"]
+        SP["type_subheading_font (font_picker)"]
+        HP["type_heading_font (font_picker)"]
+        AP["type_accent_font (font_picker)"]
+    end
+
+    subgraph Theme["Liquid Components"]
+        CF["snippets/custom-fonts.liquid"]
+        FL["snippets/fonts.liquid"]
+        TV["snippets/theme-styles-variables.liquid"]
+        TL["layout/theme.liquid"]
+    end
+
+    subgraph Output["Browser"]
+        PR["<link rel=preload> (custom heading font)"]
+        FF["@font-face declarations"]
+        CV["--font-*--family/weight/style CSS vars"]
+    end
+
+    TL --> FL
+    TL --> CF
+    TL --> TV
+    BS -->|shopify| BP --> FL --> PR
+    BS -->|custom| CF --> FF
+    BS --> TV --> CV
+```
 
 ### File Structure
 
 | File | Action | Purpose |
 |------|--------|---------|
-| `snippets/custom-fonts.liquid` | Created | `@font-face` loader with preload, deduplication, and Arthura auto-variant logic |
-| `snippets/theme-styles-variables.liquid` | Modified | Font CSS vars now branch on `*_font_source` setting |
+| `snippets/custom-fonts.liquid` | Created | Loads `@font-face` and preload tags for custom fonts |
+| `snippets/theme-styles-variables.liquid` | Modified | Font family CSS vars now branch on `*_font_source` setting |
 | `layout/theme.liquid` | Modified | Added `render 'custom-fonts'` after `render 'fonts'` |
-| `config/settings_schema.json` | Modified | 4 font source selects + `visible_if` on font pickers |
-| `locales/en.default.schema.json` | Modified | `settings.*_font_source`, `options.shopify_fonts`, `info.shopify_font_picker` |
+| `config/settings_schema.json` | Modified | Added 4 font source selects + `visible_if` on font pickers |
+| `locales/en.default.schema.json` | Modified | Added `settings.*_font_source`, `options.shopify_fonts`, `info.shopify_font_picker` |
 | `assets/Arthura-Regular.woff2` | Added | Arthura weight 400 |
 | `assets/Arthura-Medium.woff2` | Added | Arthura weight 500 |
 | `assets/Arthura-Bold.woff2` | Added | Arthura weight 700 |
@@ -25,35 +63,49 @@ Merchants choose between Shopify's built-in font picker or a curated set of cust
 
 ### How It Works
 
-Each of the four font roles has a `*_font_source` select. Default `"shopify"` shows the native font picker. Any other value loads the custom font via `snippets/custom-fonts.liquid`:
+#### Font source selection
 
-1. **Preload** — heading font gets `<link rel="preload">` for LCP
-2. **Collect** — loops all four roles collecting needed custom fonts
-3. **Deduplicate** — `| uniq | compact` prevents double-loading
-4. **Emit** — `@font-face` only for fonts actually in use
+Each of the four font roles (body, subheading, heading, accent) has a `*_font_source` select setting. Default is `"shopify"`, which shows the native Shopify font picker and uses `font_face` / `font_url` Liquid filters. Any other value selects a custom font.
 
-`snippets/theme-styles-variables.liquid` branches on `*_font_source`:
-- `shopify` → reads `.family`, `.weight`, `.style` from Shopify font object
-- custom → parses `font-name:weight`, maps to CSS `font-family` string
+#### Custom font loading (`snippets/custom-fonts.liquid`)
+
+1. **Preload** — If the heading font is custom, outputs a `<link rel="preload">` for the heading font file. This is critical for LCP since headings are typically above the fold.
+2. **Collect** — Loops through all four font sources collecting which custom fonts are needed. If body uses Arthura, also schedules `arthura:500` (buttons) and `arthura:700` (rich text bold) for loading.
+3. **Deduplicate** — `| uniq | compact` ensures the same font file is never loaded twice even if selected for multiple roles.
+4. **Emit** — Outputs `@font-face` declarations only for fonts in use, inside `{% style %}...{% endstyle %}`.
+
+#### CSS variable generation (`snippets/theme-styles-variables.liquid`)
+
+The font family block is conditional per source:
+- `shopify` → reads `.family`, `.fallback_families`, `.weight`, `.style` from the Shopify font object
+- custom → parses `font-name:weight` value, maps name to `font-family` string, sets style to `normal`
+
+Output variables consumed by the rest of the theme:
+```css
+--font-body--family    --font-body--style    --font-body--weight
+--font-subheading--family ...
+--font-heading--family ...
+--font-accent--family ...
+```
 
 ### Available Custom Fonts
 
-| Font | Value | Weights |
-|------|-------|---------|
+| Font | Value | Weights available |
+|------|-------|-------------------|
 | Selfie Neue Rounded | `selfie-neue-rounded:400` | 400 |
 | Boldonse | `boldonse:400` | 400 |
 | Arthura | `arthura:400` | 400 |
 | Arthura Bold | `arthura:700` | 700 |
 
-> Arthura Medium (500) loads automatically when Arthura is body font — used for button weight.
+> Arthura Medium (500) is loaded automatically when Arthura is selected as body font — used for button font weight.
 
 ### Adding a New Custom Font
 
-1. Upload `.woff2` to `assets/`
-2. Add option to the 4 selects in `config/settings_schema.json` (format: `name:weight`)
-3. Add `@font-face` case in `snippets/custom-fonts.liquid`
-4. Add family case in `snippets/theme-styles-variables.liquid` (all 4 role blocks)
-5. If multiple weights, add auto-load logic in the body section of `custom-fonts.liquid`
+1. **Upload** the `.woff2` file to `assets/`
+2. **Add option** to the 4 `select` settings in `config/settings_schema.json` (value format: `font-name:weight`)
+3. **Add `@font-face` case** in `snippets/custom-fonts.liquid` under the `case font_name` block
+4. **Add family case** in `snippets/theme-styles-variables.liquid` under all 4 `case body_font_name` / `case heading_font_name` etc. blocks
+5. If the font has multiple weights (like Arthura), add auto-load logic in the body font section of `custom-fonts.liquid`
 
 ---
 
@@ -139,12 +191,14 @@ Any block that uses `snippets/text.liquid` and has a `type_preset` setting can g
 ## Verification Checklist
 
 ### Custom fonts
-- [ ] Theme Settings → Typography → Fonts shows 4 source selects
-- [ ] Selecting "Shopify fonts" shows native picker; custom hides it
-- [ ] Selecting a custom font changes the typography in preview
-- [ ] Page source shows `@font-face` only for selected font(s)
-- [ ] Page source shows `<link rel="preload">` for heading custom font
-- [ ] Same font for multiple roles loads `@font-face` only once
+- [ ] Theme Settings → Typography → Fonts shows 4 source selects with custom font options
+- [ ] Selecting "Shopify fonts" shows the native font picker below; selecting a custom font hides it
+- [ ] Selecting "Boldonse" as Heading font changes headings to Boldonse in the preview
+- [ ] Page source shows `@font-face` only for the selected custom font(s)
+- [ ] Page source shows `<link rel="preload">` for the heading custom font in `<head>`
+- [ ] Switching back to "Shopify fonts" removes the `@font-face` and preload
+- [ ] Same font selected for two roles loads `@font-face` only once (deduplication)
+- [ ] Arthura as body font auto-loads Arthura Medium (500) and Bold (700) variants
 
 ### Mobile presets
 - [ ] Block settings panel shows "Mobile preset" dropdown after "Preset"
