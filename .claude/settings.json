@@ -1,0 +1,18 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "prompt",
+            "if": "Bash(git push*)",
+            "prompt": "Before allowing this git push, run the /pre-push skill: check which .liquid files are new in this branch (git diff --name-only --diff-filter=A origin/develop...HEAD or origin/main...HEAD) under blocks/, sections/, or snippets/. For each new file, check if a corresponding doc exists in docs/. If any meaningful feature is missing its doc, return ok=false and explain which files need documentation. If everything is covered or the new files are minor helpers, return ok=true.",
+            "statusMessage": "Checking documentation coverage before push...",
+            "timeout": 60
+          }
+        ]
+      }
+    ]
+  }
+}
