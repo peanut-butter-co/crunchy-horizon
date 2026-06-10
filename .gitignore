@@ -1,0 +1,11 @@
+# Shopify CLI environment config — developer-specific, never commit
+shopify.theme.toml
+shopify.theme.*.toml
+
+# Claude Code playwright debugging artifacts
+.playwright-mcp/
+
+# OS generated files
+.DS_Store
+._*
+Thumbs.db

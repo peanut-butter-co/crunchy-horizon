@@ -141,6 +141,51 @@
       "info": "t:info.edit_presets_in_theme_settings"
     },
     {
+      "type": "select",
+      "id": "type_preset_mobile",
+      "label": "t:settings.preset_mobile",
+      "options": [
+        {
+          "value": "",
+          "label": "t:options.use_desktop_preset"
+        },
+        {
+          "value": "rte",
+          "label": "t:options.default"
+        },
+        {
+          "value": "paragraph",
+          "label": "t:options.paragraph"
+        },
+        {
+          "value": "h1",
+          "label": "t:options.h1"
+        },
+        {
+          "value": "h2",
+          "label": "t:options.h2"
+        },
+        {
+          "value": "h3",
+          "label": "t:options.h3"
+        },
+        {
+          "value": "h4",
+          "label": "t:options.h4"
+        },
+        {
+          "value": "h5",
+          "label": "t:options.h5"
+        },
+        {
+          "value": "h6",
+          "label": "t:options.h6"
+        }
+      ],
+      "default": "",
+      "info": "t:info.mobile_preset_fallback"
+    },
+    {
       "type": "checkbox",
       "id": "inherit_color_scheme",
       "label": "t:settings.inherit_color_scheme",
@@ -269,7 +314,9 @@
               }
             }
           },
-          "block_order": ["text-1"]
+          "block_order": [
+            "text-1"
+          ]
         },
         "row-2": {
           "type": "_accordion-row",
@@ -285,7 +332,9 @@
               }
             }
           },
-          "block_order": ["text-1"]
+          "block_order": [
+            "text-1"
+          ]
         },
         "row-3": {
           "type": "_accordion-row",
@@ -301,10 +350,16 @@
               }
             }
           },
-          "block_order": ["text-1"]
+          "block_order": [
+            "text-1"
+          ]
         }
       },
-      "block_order": ["row-1", "row-2", "row-3"]
+      "block_order": [
+        "row-1",
+        "row-2",
+        "row-3"
+      ]
     }
   ]
 }

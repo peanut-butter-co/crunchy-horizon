@@ -214,6 +214,8 @@
     "actions_display_style": "Icons are always used on mobile",
     "breadcrumbs_excluded_paths": "Enter paths to hide breadcrumbs on, separated by commas.",
     "breadcrumbs_menu": "Select the navigation menu used to build the breadcrumb hierarchy.",
+    "mobile_preset_fallback": "Leave empty to use the desktop preset on mobile",
+    "shopify_font_picker": "Only shown when 'Shopify fonts' is selected",
     "applies_on_image_only": "Applies to images only",
     "aspect_ratio_adjusted": "Adjusted in some layouts",
     "carousel_hover_behavior_not_supported": "\"Carousel\" hover is not supported when \"Carousel\" type is selected at the section level",
@@ -701,6 +703,7 @@
     // Uniform style option for borders and overlays
     "solid": "Solid",
     "space_between": "Space between",
+    "shopify_fonts": "Shopify fonts",
     "spotify": "Spotify",
     "spotlight": "Spotlight",
     "square": "Square",
@@ -739,6 +742,7 @@
     // Gradient direction option, upward flow
     "up": "Up",
     "uppercase": "Uppercase",
+    "use_desktop_preset": "Use desktop preset",
     "vertical": "Vertical",
     "video": "Video",
     "video_external_url": "External URL",
@@ -752,6 +756,7 @@
     "below_media": "Below media"
   },
   "settings": {
+    "accent_font_source": "Accent font",
     "accordion": "Accordion",
     "account": "Account",
     "actions_display_style": "Menu style",
@@ -782,6 +787,7 @@
     // Display type selection for popup content (modal vs drawer)
     "behavior": "Behavior",
     "blog": "Blog",
+    "body_font_source": "Body font",
     "breadcrumbs_enabled": "Enable breadcrumbs",
     "breadcrumbs_excluded_paths": "Excluded paths",
     "breadcrumbs_menu": "Menu",
@@ -897,6 +903,7 @@
     "gift_card_form": "Gift card form",
     "gradient_direction": "Gradient direction",
     "heading": "Heading",
+    "heading_font_source": "Heading font",
     "heading_preset": "Heading preset",
     "headings": "Headings",
     "height": "Height",
@@ -1008,6 +1015,7 @@
     "desktop_position": "Desktop position",
     "post_count": "Post count",
     "preset": "Preset",
+    "preset_mobile": "Mobile preset",
     "product_price_typography": "Product price typography",
     "product_title_typography": "Product title typography",
     "primary_button_background": "Primary button background",
@@ -1081,6 +1089,7 @@
     "seller_note": "Allow note to seller",
     "seller_note_open_by_default": "Open note to seller by default",
     "shadow_color": "Shadow",
+    "subheading_font_source": "Subheading font",
     "shadow_opacity": "Shadow opacity",
     // Background shape for carousel navigation buttons
     "shape": "Shape",

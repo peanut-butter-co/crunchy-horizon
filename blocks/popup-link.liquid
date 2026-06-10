@@ -11,7 +11,7 @@
 >
   <button
     on:click="/showDialog"
-    class="button button-unstyled popup-link__button text-left spacing-style {{ block_settings.type_preset }}"
+    class="button button-unstyled popup-link__button text-left spacing-style {{ block_settings.type_preset }} {%- if block_settings.type_preset_mobile != blank %} text-block--mobile-preset-{{ block_settings.type_preset_mobile }}{%- endif -%}"
     style="{% render 'spacing-style', settings: block_settings %}"
   >
     {{- block_settings.heading }}
@@ -180,6 +180,51 @@
       "info": "t:info.edit_presets_in_theme_settings"
     },
     {
+      "type": "select",
+      "id": "type_preset_mobile",
+      "label": "t:settings.preset_mobile",
+      "options": [
+        {
+          "value": "",
+          "label": "t:options.use_desktop_preset"
+        },
+        {
+          "value": "rte",
+          "label": "t:options.default"
+        },
+        {
+          "value": "paragraph",
+          "label": "t:options.paragraph"
+        },
+        {
+          "value": "h1",
+          "label": "t:options.h1"
+        },
+        {
+          "value": "h2",
+          "label": "t:options.h2"
+        },
+        {
+          "value": "h3",
+          "label": "t:options.h3"
+        },
+        {
+          "value": "h4",
+          "label": "t:options.h4"
+        },
+        {
+          "value": "h5",
+          "label": "t:options.h5"
+        },
+        {
+          "value": "h6",
+          "label": "t:options.h6"
+        }
+      ],
+      "default": "",
+      "info": "t:info.mobile_preset_fallback"
+    },
+    {
       "type": "header",
       "content": "t:content.link_padding"
     },
@@ -248,7 +293,10 @@
           }
         }
       },
-      "block_order": ["text_pexwUk", "text_g7mEh7"]
+      "block_order": [
+        "text_pexwUk",
+        "text_g7mEh7"
+      ]
     }
   ]
 }
