@@ -9,7 +9,22 @@ argument-hint: [clickup-ticket-url-or-id]
 
 Argument received: `$ARGUMENTS`
 
-You are running as **Opus** — the most capable model. Your job is to think, classify, architect, and delegate. Spawn Sonnet subagents for well-scoped mechanical work (file reads, grepping, boilerplate drafting, translation JSON); review their output before accepting it. Never delegate decisions that require judgment, ambiguity resolution, or architecture choices.
+You are running as **Opus** — the most capable model. Your role is to orchestrate, verify, and handle anything that requires judgment. Delegate aggressively to Sonnet subagents for mechanical, well-scoped work so that you preserve tokens and speed without sacrificing quality.
+
+**Delegation model — apply throughout every step:**
+
+| Task type | Who handles it |
+|-----------|---------------|
+| Architecture decisions, schema design, ambiguous logic | **Opus (you)** |
+| Code review, final verification, quality check | **Opus (you)** |
+| Ticket classification, plan writing | **Opus (you)** |
+| Reading files, listing directories, grepping patterns | **Sonnet subagent** |
+| Drafting boilerplate Liquid / schema JSON | **Sonnet subagent** |
+| Generating translation key JSON | **Sonnet subagent** |
+| Running git commands and collecting output | **Sonnet subagent** |
+| Analyzing video content (via `video-to-ticket` skill) | **Sonnet subagent** |
+
+Spawn subagents with the Agent tool. Review their output before incorporating it. Never delegate decisions — only execution.
 
 Follow every step in order. Do not produce a final action plan until Step 6 is complete.
 
@@ -83,6 +98,25 @@ DESIGN REFS:  {Figma links / screenshots / "none"}
 SUBTASKS:     {list or "none"}
 KEY COMMENTS: {anything relevant or "none"}
 ```
+
+#### Video detection — run immediately after fetching
+
+Scan the ticket description, comments, and attachments for any video links or files:
+- Loom: `loom.com/share/...`
+- YouTube: `youtube.com/watch...` or `youtu.be/...`
+- Local or attached video files: `.mp4`, `.mov`, `.webm`
+- Screen recordings mentioned in comments
+
+**If videos are found:**
+
+Check if the `video-to-ticket` skill is available in this session (it appears in the available skills list if loaded).
+
+- If **available**: delegate analysis to a **Sonnet subagent** using the `video-to-ticket` skill. Instruct it to extract key points, decisions, requirements, and any visual references from the video. Wait for the result and incorporate it into your understanding of the ticket before writing the plan.
+- If **not available**: flag it clearly:
+
+  > ⚠️ This ticket contains a video that likely has important context. The `video-to-ticket` skill is not loaded in this session. Ask the user to invoke it manually, or summarize the key points from the video manually before proceeding.
+
+Do not skip video content — it often contains requirements, decisions, or design details that are not written in the ticket text.
 
 ---
 
@@ -239,11 +273,6 @@ EDGE CASES / WATCH OUT FOR:
 • {Browser quirk, theme conflict, a11y concern, etc.}
 ```
 
-**🤖 DELEGATION STRATEGY:**
-- **Opus (me) handles:** architecture decisions, schema design, ambiguous logic, final code review
-- **Delegate to Sonnet:** file reads & grepping for existing patterns, drafting boilerplate Liquid/schema JSON, generating translation key JSON, writing repetitive settings blocks
-- I will spawn subagents via the Agent tool for delegated tasks and review their output before accepting
-
 ```
 ──────────────────────────────
 Ready. Give me a command to start.
@@ -275,9 +304,7 @@ HOW TO CONFIRM THE FIX:
 • {Any regression to watch for}
 ```
 
-**🤖 DELEGATION STRATEGY:**
-- **Opus (me) handles:** root cause analysis, deciding the fix approach, reviewing the patch
-- **Delegate to Sonnet:** reading and grepping files for the suspected issue, searching for similar patterns elsewhere in the codebase
+> Delegate to Sonnet: file reads and grep searches for suspected issues. Opus reviews findings and decides the fix.
 
 ```
 ──────────────────────────────
@@ -306,9 +333,7 @@ WHEN TO STOP:
 {What "done" looks like — enough to make a decision, not exhaustive}
 ```
 
-**🤖 DELEGATION STRATEGY:**
-- **Opus (me) handles:** synthesis, recommendation, final judgment
-- **Delegate to Sonnet:** reading documentation, tracing code paths, collecting raw data
+> Delegate to Sonnet: reading docs, tracing code paths, collecting raw data. Opus synthesizes and writes the recommendation.
 
 ```
 ──────────────────────────────

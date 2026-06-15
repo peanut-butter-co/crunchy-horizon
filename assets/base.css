@@ -718,7 +718,36 @@ body,
   font-weight: var(--text-preset-weight, var(--font-paragraph--weight));
   font-size: var(--text-preset-size, var(--font-paragraph--size));
   line-height: var(--text-preset-line-height, var(--font-paragraph--line-height));
+  letter-spacing: var(--text-preset-letter-spacing, var(--font-paragraph--letter-spacing));
   text-transform: var(--text-preset-case, var(--font-paragraph--case));
+  -webkit-font-smoothing: antialiased;
+  color: var(--text-preset-color, var(--color, var(--color-foreground)));
+}
+
+.paragraph-xl:not(.button),
+.paragraph-xl > *,
+.text-block.paragraph-xl :is(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--text-preset-family, var(--font-paragraph-xl--family));
+  font-style: var(--text-preset-style, var(--font-paragraph-xl--style));
+  font-weight: var(--text-preset-weight, var(--font-paragraph-xl--weight));
+  font-size: var(--text-preset-size, var(--font-paragraph-xl--size));
+  line-height: var(--text-preset-line-height, var(--font-paragraph-xl--line-height));
+  letter-spacing: var(--text-preset-letter-spacing, var(--font-paragraph-xl--letter-spacing));
+  text-transform: var(--text-preset-case, var(--font-paragraph-xl--case));
+  -webkit-font-smoothing: antialiased;
+  color: var(--text-preset-color, var(--color, var(--color-foreground)));
+}
+
+.paragraph-xs:not(.button),
+.paragraph-xs > *,
+.text-block.paragraph-xs :is(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--text-preset-family, var(--font-paragraph-xs--family));
+  font-style: var(--text-preset-style, var(--font-paragraph-xs--style));
+  font-weight: var(--text-preset-weight, var(--font-paragraph-xs--weight));
+  font-size: var(--text-preset-size, var(--font-paragraph-xs--size));
+  line-height: var(--text-preset-line-height, var(--font-paragraph-xs--line-height));
+  letter-spacing: var(--text-preset-letter-spacing, var(--font-paragraph-xs--letter-spacing));
+  text-transform: var(--text-preset-case, var(--font-paragraph-xs--case));
   -webkit-font-smoothing: antialiased;
   color: var(--text-preset-color, var(--color, var(--color-foreground)));
 }
@@ -4240,6 +4269,28 @@ product-recommendations:has([data-has-recommendations='false']) {
     --text-preset-line-height: var(--font-paragraph--line-height);
     --text-preset-letter-spacing: var(--font-paragraph--letter-spacing);
     --text-preset-case: var(--font-paragraph--case);
+    --text-preset-color: var(--color, var(--color-foreground));
+  }
+
+  .text-block--mobile-preset-paragraph-xl {
+    --text-preset-family: var(--font-paragraph-xl--family);
+    --text-preset-style: var(--font-paragraph-xl--style);
+    --text-preset-weight: var(--font-paragraph-xl--weight);
+    --text-preset-size: var(--font-paragraph-xl--size);
+    --text-preset-line-height: var(--font-paragraph-xl--line-height);
+    --text-preset-letter-spacing: var(--font-paragraph-xl--letter-spacing);
+    --text-preset-case: var(--font-paragraph-xl--case);
+    --text-preset-color: var(--color, var(--color-foreground));
+  }
+
+  .text-block--mobile-preset-paragraph-xs {
+    --text-preset-family: var(--font-paragraph-xs--family);
+    --text-preset-style: var(--font-paragraph-xs--style);
+    --text-preset-weight: var(--font-paragraph-xs--weight);
+    --text-preset-size: var(--font-paragraph-xs--size);
+    --text-preset-line-height: var(--font-paragraph-xs--line-height);
+    --text-preset-letter-spacing: var(--font-paragraph-xs--letter-spacing);
+    --text-preset-case: var(--font-paragraph-xs--case);
     --text-preset-color: var(--color, var(--color-foreground));
   }
 
