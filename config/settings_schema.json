@@ -450,7 +450,8 @@
         "type": "number",
         "id": "type_size_paragraph",
         "label": "t:settings.size_px",
-        "default": 14
+        "default": 14,
+        "info": "px"
       },
       {
         "type": "number",
