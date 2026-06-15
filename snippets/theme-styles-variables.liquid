@@ -423,7 +423,7 @@
           assign preset_style = '--font-[preset_font]--style' | replace: '[preset_font]', settings[preset_font_id]
           assign preset_weight = '--font-[preset_font]--weight' | replace: '[preset_font]', settings[preset_font_id]
           assign preset_case = 'type_case_[preset_name]' | replace: '[preset_name]', preset_name
-          assign preset_letter_spacing_id = 'type_letter_spacing_[preset_name]' | replace: '[preset_name]', preset_name
+          assign preset_letter_spacing_id = 'type_letter_spacing_[preset_name]' | replace: '[preset_name]', preset_key
           assign preset_letter_spacing_value = settings[preset_letter_spacing_id]
 
           echo '--font-[preset_name]--weight: var([preset_weight]);' | replace: '[preset_name]', preset_name | replace: '[preset_weight]', preset_weight
