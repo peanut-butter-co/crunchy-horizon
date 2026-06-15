@@ -322,7 +322,7 @@
 
     /* Typography presets */
     {% liquid
-      assign font_sizes = "paragraph, h1, h2, h3, h4, h5, h6" | split: ", "
+      assign font_sizes = "paragraph-xl, paragraph, paragraph-xs, h1, h2, h3, h4, h5, h6" | split: ", "
       assign fluid_size_cutoff = 48
       assign absolute_font_size_min = 10
 
@@ -331,7 +331,8 @@
       endcomment
       assign font_size_values = ''
       for font_size in font_sizes
-        assign size_setting = 'type_size_[font_size]' | replace: '[font_size]', font_size
+        assign font_size_key = font_size | replace: '-', '_'
+        assign size_setting = 'type_size_[font_size]' | replace: '[font_size]', font_size_key
         assign size_setting_value = settings[size_setting] | times: 1
 
         comment
@@ -352,7 +353,8 @@
         The calculation depends on the size of S-1 (over or under the cutoff)
       endcomment
       for font_size in font_sizes
-        assign size_setting = 'type_size_[font_size]' | replace: '[font_size]', font_size
+        assign font_size_key = font_size | replace: '-', '_'
+        assign size_setting = 'type_size_[font_size]' | replace: '[font_size]', font_size_key
         assign font_size_value = settings[size_setting] | times: 1
         assign font_size_string = '[font_size_value]' | replace: '[font_size_value]', font_size_value
         assign index = font_size_values | find_index: font_size_string
@@ -398,38 +400,42 @@
         endif
       endfor
 
-      assign type_presets = "paragraph, h1, h2, h3, h4, h5, h6" | split: ", "
+      assign type_presets = "paragraph-xl, paragraph, paragraph-xs, h1, h2, h3, h4, h5, h6" | split: ", "
 
       for preset_name in type_presets
+        assign preset_key = preset_name | replace: '-', '_'
         assign preset_size = '--font-size--[preset_name]' | replace: '[preset_name]', preset_name
-        assign preset_line_height = 'type_line_height_[preset_name]' | replace: '[preset_name]', preset_name
+        assign preset_line_height = 'type_line_height_[preset_name]' | replace: '[preset_name]', preset_key
 
-        if preset_name == 'paragraph'
+        if preset_name contains 'paragraph'
           assign preset_font = '--font-body--family'
           assign preset_style = '--font-body--style'
           assign preset_weight = '400'
           assign preset_case = '--font-body--case'
-          assign preset_letter_spacing = 'body-normal'
+          assign preset_letter_spacing_id = 'type_letter_spacing_[preset_name]' | replace: '[preset_name]', preset_key
+          assign preset_letter_spacing_value = settings[preset_letter_spacing_id]
 
           echo '--font-[preset_name]--weight: [preset_weight];' | replace: '[preset_name]', preset_name | replace: '[preset_weight]', preset_weight
-          echo '--font-[preset_name]--letter-spacing: var(--letter-spacing--[preset_letter_spacing]);' | replace: '[preset_name]', preset_name | replace: '[preset_letter_spacing]', preset_letter_spacing
+          echo '--font-[preset_name]--letter-spacing: [preset_letter_spacing_value]px;' | replace: '[preset_name]', preset_name | replace: '[preset_letter_spacing_value]', preset_letter_spacing_value
         else
           assign preset_font_id = 'type_font_[preset_name]' | replace: '[preset_name]', preset_name
           assign preset_font = '--font-[preset_font]--family' | replace: '[preset_font]', settings[preset_font_id]
           assign preset_style = '--font-[preset_font]--style' | replace: '[preset_font]', settings[preset_font_id]
           assign preset_weight = '--font-[preset_font]--weight' | replace: '[preset_font]', settings[preset_font_id]
           assign preset_case = 'type_case_[preset_name]' | replace: '[preset_name]', preset_name
-          assign preset_letter_spacing = 'type_letter_spacing_[preset_name]' | replace: '[preset_name]', preset_name
+          assign preset_letter_spacing_id = 'type_letter_spacing_[preset_name]' | replace: '[preset_name]', preset_key
+          assign preset_letter_spacing_value = settings[preset_letter_spacing_id]
 
           echo '--font-[preset_name]--weight: var([preset_weight]);' | replace: '[preset_name]', preset_name | replace: '[preset_weight]', preset_weight
-          echo '--font-[preset_name]--letter-spacing: var(--letter-spacing--[preset_letter_spacing]);' | replace: '[preset_name]', preset_name | replace: '[preset_letter_spacing]', settings[preset_letter_spacing]
+          echo '--font-[preset_name]--letter-spacing: [preset_letter_spacing_value]px;' | replace: '[preset_name]', preset_name | replace: '[preset_letter_spacing_value]', preset_letter_spacing_value
         endif
 
         echo '--font-[preset_name]--size: var([preset_size]);' | replace: '[preset_name]', preset_name | replace: '[preset_size]', preset_size
         echo '--font-[preset_name]--family: var([preset_font]);' | replace: '[preset_name]', preset_name | replace: '[preset_font]', preset_font
         echo '--font-[preset_name]--style: var([preset_style]);' | replace: '[preset_name]', preset_name | replace: '[preset_style]', preset_style
         echo '--font-[preset_name]--case: [preset_case];' | replace: '[preset_name]', preset_name | replace: '[preset_case]', settings[preset_case]
-        echo '--font-[preset_name]--line-height: var(--line-height--[preset_line_height]);' | replace: '[preset_name]', preset_name | replace: '[preset_line_height]', settings[preset_line_height]
+        assign preset_line_height_value = settings[preset_line_height]
+        echo '--font-[preset_name]--line-height: [preset_line_height_value]px;' | replace: '[preset_name]', preset_name | replace: '[preset_line_height_value]', preset_line_height_value
       endfor
     %}
 
