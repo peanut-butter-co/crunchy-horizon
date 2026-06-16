@@ -4376,7 +4376,8 @@ product-recommendations:has([data-has-recommendations='false']) {
     When desktop preset is Default (rte), base preset rules don't apply
     (e.g. .text-block.h2 > *). Apply mobile variables directly for rte text blocks.
   */
-  .text-block.rte[class*='text-block--mobile-preset-'] > * {
+  .text-block.rte[class*='text-block--mobile-preset-'] > *,
+  .text-block.custom[class*='text-block--mobile-preset-'] > * {
     font-family: var(--text-preset-family, inherit);
     font-style: var(--text-preset-style, inherit);
     font-weight: var(--text-preset-weight, inherit);
