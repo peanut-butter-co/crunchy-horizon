@@ -1,0 +1,60 @@
+{%- if search.performed -%}
+  {%- assign max_results = settings.full_search_max_results | default: 8 -%}
+  {%- if search.results.size > 0 -%}
+    <div class="full-search-products" data-search-results>
+      {%- assign title = 'content.search_results_resource_products' | t -%}
+      {%- render 'predictive-search-products-list', title: title, products: search.results, limit: max_results -%}
+
+      {%- if search.results.size == 1 -%}
+        <div data-single-result-url="{{ search.results.first.url }}"></div>
+      {%- endif -%}
+    </div>
+  {%- else -%}
+    <div class="full-search-products full-search-products--empty" data-search-results>
+      <p class="predictive-search-results__no-results">
+        {{ 'content.search_results_no_results' | t: terms: search.terms }}
+      </p>
+    </div>
+  {%- endif -%}
+{%- endif -%}
+
+{% stylesheet %}
+  .full-search-products {
+    padding: var(--padding-md);
+    min-width: 0;
+  }
+
+  .full-search-products .predictive-search-results__title {
+    display: none;
+  }
+
+  .full-search-products .predictive-search-results__products {
+    width: 100%;
+  }
+
+  .full-search-products .predictive-search-results__wrapper-products {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--gap-sm);
+  }
+
+  @media screen and (min-width: 550px) {
+    .full-search-products .predictive-search-results__wrapper-products {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .full-search-products .predictive-search-results__wrapper-products {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.full_search",
+  "settings": [],
+  "blocks": []
+}
+{% endschema %}

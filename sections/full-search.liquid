@@ -1,0 +1,155 @@
+{%- if predictive_search.performed -%}
+  {%- liquid
+    assign has_queries = false
+    assign has_collections = false
+
+    if predictive_search.resources.queries.size > 0
+      assign has_queries = true
+    endif
+    if predictive_search.resources.collections.size > 0
+      assign has_collections = true
+    endif
+  -%}
+  {%- if has_queries or has_collections -%}
+    <aside class="full-search-sidebar" data-search-sidebar>
+      {%- if has_queries -%}
+        <p class="full-search-sidebar__label">{{ 'content.search_results_resource_queries' | t }}</p>
+        <ul class="full-search-sidebar__queries list-unstyled" role="list">
+          {%- for resource in predictive_search.resources.queries -%}
+            <li class="full-search-sidebar__query-item">
+              <a
+                class="pills__pill full-search-sidebar__query-link"
+                href="{{ resource.url }}"
+                aria-label="{{ resource.text }}"
+              >
+                <span>{{ resource.styled_text }}</span>
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+
+      {%- if has_collections -%}
+        <p class="full-search-sidebar__label">{{ 'content.search_results_resource_collections' | t }}</p>
+        <ul class="full-search-sidebar__collections list-unstyled" role="list">
+          {%- for collection in predictive_search.resources.collections -%}
+            <li class="full-search-sidebar__collection-item">
+              <a class="full-search-sidebar__collection-link" href="{{ collection.url }}">
+                {%- if collection.featured_image -%}
+                  {{- collection.featured_image | image_url: width: 64 | image_tag:
+                    class: 'full-search-sidebar__collection-image',
+                    loading: 'lazy',
+                    width: 32,
+                    height: 32,
+                    widths: '32, 64',
+                    alt: collection.title
+                  -}}
+                {%- else -%}
+                  <span class="full-search-sidebar__collection-image full-search-sidebar__collection-image--placeholder" aria-hidden="true">
+                    {{- 'icon-grid-default.svg' | inline_asset_content -}}
+                  </span>
+                {%- endif -%}
+                <span class="full-search-sidebar__collection-name">{{ collection.title }}</span>
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </aside>
+  {%- endif -%}
+{%- endif -%}
+
+{% stylesheet %}
+  .full-search-sidebar {
+    padding: var(--padding-md);
+    border-bottom: var(--style-border-width) solid var(--color-border);
+
+    @media screen and (min-width: 750px) {
+      border-bottom: none;
+      border-right: var(--style-border-width) solid var(--color-border);
+    }
+  }
+
+  .full-search-sidebar__label {
+    font-family: var(--font-body--family);
+    font-size: var(--font-size--xs);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgb(var(--color-foreground-rgb) / var(--opacity-subdued-text));
+    margin: 0 0 var(--margin-sm);
+  }
+
+  .full-search-sidebar__queries {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--gap-xs);
+    margin-bottom: var(--margin-lg);
+  }
+
+  .full-search-sidebar__query-item {
+    display: flex;
+  }
+
+  .full-search-sidebar__query-link {
+    font-size: var(--font-size--sm);
+  }
+
+  .full-search-sidebar__collections {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-xs);
+  }
+
+  .full-search-sidebar__collection-item {
+    display: flex;
+  }
+
+  .full-search-sidebar__collection-link {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-sm);
+    text-decoration: none;
+    color: var(--color-foreground);
+    padding: var(--padding-2xs) 0;
+    font-size: var(--font-size--sm);
+    transition: color var(--animation-speed) var(--animation-easing);
+  }
+
+  .full-search-sidebar__collection-link:hover {
+    color: var(--color-primary);
+  }
+
+  .full-search-sidebar__collection-image {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .full-search-sidebar__collection-image--placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(var(--color-foreground-rgb) / var(--opacity-5));
+    border-radius: var(--style-border-radius-inputs);
+    color: rgb(var(--color-foreground-rgb) / var(--opacity-subdued-text));
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  .full-search-sidebar__collection-name {
+    line-height: 1.2;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.full_search",
+  "settings": [],
+  "blocks": []
+}
+{% endschema %}
