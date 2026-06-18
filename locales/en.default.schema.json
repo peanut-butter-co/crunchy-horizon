@@ -367,6 +367,7 @@
     "policy_list": "Policy links",
     "popovers_and_modals": "Popovers and modals",
     "popup_link": "Popup link",
+    "full_search": "Full search",
     "predictive_search": "Search popover",
     "predictive_search_empty": "Predictive search empty",
     "price": "Price",
@@ -444,6 +445,8 @@
     "comparison_slider": "Comparison slider"
   },
   "options": {
+    "quick_search_full": "Full search",
+    "quick_search_predictive": "Predictive search",
     "above_carousel": "Above carousel",
     "accent": "Accent",
     "all": "All",
@@ -1186,6 +1189,10 @@
     "width_mobile": "Mobile width",
     "wrap": "Wrap",
     "z_index": "Z-index",
+    "quick_search_mode": "Quick search",
+    "full_search_max_results": "Max results",
+    "full_search_min_length": "Min characters to trigger",
+    "full_search_show_categories": "Show categories sidebar",
     "product_corner_radius": "Product corner radius",
     "card_corner_radius": "Card corner radius",
     "media_type_1": "Media type",
