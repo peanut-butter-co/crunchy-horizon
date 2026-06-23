@@ -686,6 +686,14 @@
     --button-text-case-primary: {{ settings.button_text_case_primary }};
     --button-text-case-secondary: {{ settings.button_text_case_secondary }};
 
+    /* Button typography */
+    --button-font-size-primary: {{ settings.button_font_size_primary | append: 'px' }};
+    --button-line-height-primary: {{ settings.button_line_height_primary | append: 'px' }};
+    --button-letter-spacing-primary: {{ settings.button_letter_spacing_primary | append: 'px' }};
+    --button-font-size-secondary: {{ settings.button_font_size_secondary | append: 'px' }};
+    --button-line-height-secondary: {{ settings.button_line_height_secondary | append: 'px' }};
+    --button-letter-spacing-secondary: {{ settings.button_letter_spacing_secondary | append: 'px' }};
+
     /* Borders */
     --border-color: rgb(var(--color-border-rgb) / var(--opacity-50));
     --border-width-sm: 1px;

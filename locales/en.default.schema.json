@@ -960,6 +960,7 @@
     "left_padding": "Left padding",
     "length": "Length",
     "letter_spacing": "Letter spacing",
+    "button_letter_spacing": "Letter spacing",
     "limit_content_width": "Limit content width",
     "limit_media_to_screen_height": "Constrain to screen height",
     "limit_product_details_width": "Limit product details width",
