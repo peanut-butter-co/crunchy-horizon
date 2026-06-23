@@ -7,7 +7,10 @@
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <div
-  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
+  class="
+    section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}
+    {% if section.settings.enable_min_height %} section--custom-min-height{% endif %}
+  "
   data-testid="ui-test-section"
 
   {% if request.visual_preview_mode %}
@@ -15,7 +18,10 @@
   {% endif %}
 
   style="
-    {% if section.settings.section_height == 'custom' %}
+    {% if section.settings.enable_min_height %}
+      {% if section.settings.min_height > 0 %}--section-custom-min-height: {{ section.settings.min_height }}px;{% endif %}
+      {% if section.settings.min_height_mobile > 0 %}--section-custom-min-height-mobile: {{ section.settings.min_height_mobile }}px;{% endif %}
+    {% elsif section.settings.section_height == 'custom' %}
       --section-min-height: {{ section.settings.section_height_custom }}svh;
     {% elsif section.settings.section_height == 'full-screen' %}
       --section-min-height: 100svh;
@@ -23,7 +29,7 @@
       --section-min-height: var(--section-height-{{ section.settings.section_height }});
     {% endif %}
 
-    {% if section.settings.section_height != '' %}
+    {% if section.settings.section_height != '' or section.settings.enable_min_height %}
      --section-preview-height: 600px;
      {% endif %}
   "
