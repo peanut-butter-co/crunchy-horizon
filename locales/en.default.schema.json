@@ -916,6 +916,7 @@
     "headings": "Headings",
     "height": "Height",
     "hide_logo_on_home_page": "Hide logo on home page",
+    "hide_on_mobile": "Hide on mobile",
     // Checkbox to hide padding control settings
     "hide_padding": "Hide padding",
     "hide_unselected_variant_media": "Hide unselected variant media",
