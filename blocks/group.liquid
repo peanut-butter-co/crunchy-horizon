@@ -254,6 +254,26 @@
       "visible_if": "{{ block.settings.height == 'custom' }}"
     },
     {
+      "type": "checkbox",
+      "id": "enable_min_height",
+      "label": "t:settings.enable_min_height",
+      "default": false
+    },
+    {
+      "type": "number",
+      "id": "min_height",
+      "label": "t:settings.min_height_desktop",
+      "default": 0,
+      "visible_if": "{{ block.settings.enable_min_height }}"
+    },
+    {
+      "type": "number",
+      "id": "min_height_mobile",
+      "label": "t:settings.min_height_mobile",
+      "default": 0,
+      "visible_if": "{{ block.settings.enable_min_height }}"
+    },
+    {
       "type": "header",
       "content": "t:content.appearance"
     },
