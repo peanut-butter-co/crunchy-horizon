@@ -1131,6 +1131,28 @@
         "default": "default"
       },
       {
+        "type": "number",
+        "id": "button_font_size_primary",
+        "label": "t:settings.size_px",
+        "default": 14
+      },
+      {
+        "type": "number",
+        "id": "button_line_height_primary",
+        "label": "t:settings.line_height_px",
+        "default": 22
+      },
+      {
+        "type": "range",
+        "id": "button_letter_spacing_primary",
+        "label": "t:settings.button_letter_spacing",
+        "min": -2,
+        "max": 8,
+        "step": 0.1,
+        "unit": "px",
+        "default": 0
+      },
+      {
         "type": "header",
         "content": "t:options.button_secondary"
       },
@@ -1185,6 +1207,28 @@
           }
         ],
         "default": "default"
+      },
+      {
+        "type": "number",
+        "id": "button_font_size_secondary",
+        "label": "t:settings.size_px",
+        "default": 14
+      },
+      {
+        "type": "number",
+        "id": "button_line_height_secondary",
+        "label": "t:settings.line_height_px",
+        "default": 22
+      },
+      {
+        "type": "range",
+        "id": "button_letter_spacing_secondary",
+        "label": "t:settings.button_letter_spacing",
+        "min": -2,
+        "max": 8,
+        "step": 0.1,
+        "unit": "px",
+        "default": 0
       },
       {
         "type": "header",

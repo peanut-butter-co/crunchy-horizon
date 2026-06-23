@@ -1312,8 +1312,6 @@ button.shopify-payment-button__button--unbranded {
   font-family: var(--font-paragraph--family);
   font-style: var(--font-paragraph--style);
   font-weight: var(--font-paragraph--weight);
-  font-size: var(--font-paragraph--size);
-  line-height: var(--font-paragraph--line-height);
   margin-block: 0;
   transition: color var(--animation-speed) var(--animation-easing),
     box-shadow var(--animation-speed) var(--animation-easing),
@@ -1329,6 +1327,9 @@ button.shopify-payment-button__button--unbranded {
   font-family: var(--button-font-family-primary);
   text-transform: var(--button-text-case-primary);
   border-radius: var(--style-border-radius-buttons-primary);
+  font-size: var(--button-font-size-primary);
+  line-height: var(--button-line-height-primary);
+  letter-spacing: var(--button-letter-spacing-primary);
 }
 
 .button:not(.button-secondary, .button-unstyled) {
@@ -1339,11 +1340,17 @@ button.shopify-payment-button__button--unbranded {
   font-family: var(--button-font-family-secondary);
   text-transform: var(--button-text-case-secondary);
   border-radius: var(--style-border-radius-buttons-secondary);
+  font-size: var(--button-font-size-secondary);
+  line-height: var(--button-line-height-secondary);
+  letter-spacing: var(--button-letter-spacing-secondary);
 }
 
 button.shopify-payment-button__button--unbranded {
   font-family: var(--button-font-family-primary);
   text-transform: var(--button-text-case-primary);
+  font-size: var(--button-font-size-primary);
+  line-height: var(--button-line-height-primary);
+  letter-spacing: var(--button-letter-spacing-primary);
 }
 
 textarea,
