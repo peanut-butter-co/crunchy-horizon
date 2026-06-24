@@ -12,12 +12,16 @@
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <div
-  class="section section--{{ section.settings.section_width }} disable-section-top-offset media-with-content color-{{ section.settings.color_scheme }} spacing-style {{ media_class_modifier }}"
+  class="section section--{{ section.settings.section_width }} disable-section-top-offset media-with-content color-{{ section.settings.color_scheme }} spacing-style {{ media_class_modifier }}{% if section.settings.enable_min_height %} section--custom-min-height{% endif %}"
   data-testid="media-with-content"
   style="
     {%- render 'spacing-style', settings: section.settings %}
     {% render 'border-override', settings: section.settings %}
     --media-height: {{ section.settings.media_height }};
+    {%- if section.settings.enable_min_height %}
+      {% if section.settings.min_height > 0 %}--section-custom-min-height: {{ section.settings.min_height }}px;{% endif %}
+      {% if section.settings.min_height_mobile > 0 %}--section-custom-min-height-mobile: {{ section.settings.min_height_mobile }}px;{% endif %}
+    {%- endif %}
     {%- case section.settings.media_height %}
       {% when '50svh' %}
         --media-height-mobile: 30svh;
@@ -188,6 +192,14 @@
     }
   }
 
+  /* When a custom minimum height is set, let the content area absorb the extra
+     space on mobile (stacked layout) so the media never shows an empty gap. */
+  @media screen and (max-width: 749px) {
+    .media-with-content.section--custom-min-height {
+      grid-template-rows: auto 1fr;
+    }
+  }
+
   .media-with-content[data-shopify-visual-preview] {
     --hero-min-height: 500px;
 
@@ -265,6 +277,26 @@
         }
       ],
       "default": "80svh"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_min_height",
+      "label": "t:settings.enable_min_height",
+      "default": false
+    },
+    {
+      "type": "number",
+      "id": "min_height",
+      "label": "t:settings.min_height_desktop",
+      "default": 0,
+      "visible_if": "{{ section.settings.enable_min_height }}"
+    },
+    {
+      "type": "number",
+      "id": "min_height_mobile",
+      "label": "t:settings.min_height_mobile",
+      "default": 0,
+      "visible_if": "{{ section.settings.enable_min_height }}"
     },
     {
       "type": "select",
