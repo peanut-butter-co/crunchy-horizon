@@ -33,4 +33,30 @@
       echo ';'
     endif
   endfor
+
+  comment
+    Optional mobile-specific block padding. Emitted only when the block/section
+    opts in via `enable_mobile_padding`. Consumed by the .spacing-style mobile
+    media query in base.css, which falls back to the desktop values when unset.
+  endcomment
+  if settings.enable_mobile_padding
+    assign mobile_keys = 'padding-block-start-mobile,padding-block-end-mobile' | split: ','
+    for key in mobile_keys
+      assign value = settings[key] | default: 0
+      echo '--'
+      echo key
+      echo ': '
+      if value > scale_min
+        echo 'max('
+        echo scale_min
+        echo 'px, calc(var(--spacing-scale) * '
+        echo value
+        echo 'px))'
+      else
+        echo value
+        echo 'px'
+      endif
+      echo ';'
+    endfor
+  endif
 -%}

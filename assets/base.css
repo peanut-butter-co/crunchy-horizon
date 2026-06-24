@@ -2563,6 +2563,17 @@ form.payment-terms {
   margin-inline: var(--margin-inline-start) var(--margin-inline-end);
 }
 
+/* Optional mobile-specific block padding. Falls back to the desktop values
+   when the mobile variables are not emitted, so behavior is unchanged unless a
+   block/section opts in via its `enable_mobile_padding` setting. */
+@media screen and (max-width: 749px) {
+  .spacing-style,
+  .inherit-spacing {
+    padding-block: calc(var(--padding-block-start-mobile, var(--padding-block-start)) + var(--section-top-offset, 0px))
+      var(--padding-block-end-mobile, var(--padding-block-end));
+  }
+}
+
 /* Size style */
 .size-style {
   width: var(--size-style-width-mobile, var(--size-style-width));

@@ -12,7 +12,7 @@
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <div
-  class="section section--{{ section.settings.section_width }} disable-section-top-offset media-with-content color-{{ section.settings.color_scheme }} spacing-style {{ media_class_modifier }}{% if section.settings.enable_min_height %} section--custom-min-height{% endif %}{% if section.settings.enable_mobile_padding %} media-with-content--mobile-padding{% endif %}"
+  class="section section--{{ section.settings.section_width }} disable-section-top-offset media-with-content color-{{ section.settings.color_scheme }} spacing-style {{ media_class_modifier }}{% if section.settings.enable_min_height %} section--custom-min-height{% endif %}"
   data-testid="media-with-content"
   style="
     {%- render 'spacing-style', settings: section.settings %}
@@ -21,12 +21,6 @@
     {%- if section.settings.enable_min_height %}
       {% if section.settings.min_height > 0 %}--section-custom-min-height: {{ section.settings.min_height }}px;{% endif %}
       {% if section.settings.min_height_mobile > 0 %}--section-custom-min-height-mobile: {{ section.settings.min_height_mobile }}px;{% endif %}
-    {%- endif %}
-    {%- if section.settings.enable_mobile_padding %}
-      {%- assign mobile_padding_top = section.settings['padding-block-start-mobile'] %}
-      {%- assign mobile_padding_bottom = section.settings['padding-block-end-mobile'] %}
-      --padding-block-start-mobile: {% if mobile_padding_top > 20 %}max(20px, calc(var(--spacing-scale) * {{ mobile_padding_top }}px)){% else %}{{ mobile_padding_top }}px{% endif %};
-      --padding-block-end-mobile: {% if mobile_padding_bottom > 20 %}max(20px, calc(var(--spacing-scale) * {{ mobile_padding_bottom }}px)){% else %}{{ mobile_padding_bottom }}px{% endif %};
     {%- endif %}
     {%- case section.settings.media_height %}
       {% when '50svh' %}
@@ -203,15 +197,6 @@
   @media screen and (max-width: 749px) {
     .media-with-content.section--custom-min-height {
       grid-template-rows: auto 1fr;
-    }
-  }
-
-  /* Optional mobile-specific block padding. When the toggle is off, mobile
-     inherits the main (desktop) padding from .spacing-style. The compound
-     selector outranks .spacing-style so it overrides its inline-derived value. */
-  @media screen and (max-width: 749px) {
-    .media-with-content.media-with-content--mobile-padding {
-      padding-block: var(--padding-block-start-mobile) var(--padding-block-end-mobile);
     }
   }
 
